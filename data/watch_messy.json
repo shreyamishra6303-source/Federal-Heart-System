@@ -1,0 +1,502 @@
+[
+    {
+        "time_sec": -0.043,
+        "heart_val": 0.549,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 0.142,
+        "heart_val": -0.068,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 0.249,
+        "heart_val": 0.114,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 0.274,
+        "heart_val": 0.074,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 0.404,
+        "heart_val": -0.075,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 0.522,
+        "heart_val": -0.07,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 0.624,
+        "heart_val": -0.04,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 0.69,
+        "heart_val": 0.074,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 0.854,
+        "heart_val": -0.129,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 0.937,
+        "heart_val": -0.164,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 1.035,
+        "heart_val": 0.028,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 1.099,
+        "heart_val": 0.214,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 1.246,
+        "heart_val": 0.008,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 1.271,
+        "heart_val": -0.039,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 1.391,
+        "heart_val": -0.03,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 1.473,
+        "heart_val": 0.076,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 1.574,
+        "heart_val": 0.009,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 1.751,
+        "heart_val": 0.454,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 1.834,
+        "heart_val": -0.029,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 1.931,
+        "heart_val": 0.118,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 2.037,
+        "heart_val": 0.162,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 2.143,
+        "heart_val": -0.038,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 2.182,
+        "heart_val": -0.053,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 2.338,
+        "heart_val": -0.047,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 2.444,
+        "heart_val": 0.107,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 2.502,
+        "heart_val": -0.056,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 2.647,
+        "heart_val": 0.196,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 2.699,
+        "heart_val": -0.05,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 2.818,
+        "heart_val": 0.147,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 2.902,
+        "heart_val": 0.024,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 3.001,
+        "heart_val": -0.096,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 3.145,
+        "heart_val": -0.095,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 3.255,
+        "heart_val": -0.057,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 3.302,
+        "heart_val": -0.003,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 3.414,
+        "heart_val": -0.169,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 3.535,
+        "heart_val": -0.13,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 3.647,
+        "heart_val": 0.0,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 3.752,
+        "heart_val": 0.12,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 3.877,
+        "heart_val": -0.09,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 3.922,
+        "heart_val": -0.107,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 4.024,
+        "heart_val": -0.095,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 4.094,
+        "heart_val": 0.064,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 4.247,
+        "heart_val": -0.087,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 4.318,
+        "heart_val": -0.049,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 4.426,
+        "heart_val": -0.048,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 4.533,
+        "heart_val": 0.163,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 4.598,
+        "heart_val": 0.026,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 4.729,
+        "heart_val": -0.072,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 4.8,
+        "heart_val": -0.061,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 4.998,
+        "heart_val": -0.007,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 5.052,
+        "heart_val": 0.043,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 5.15,
+        "heart_val": -0.096,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 5.282,
+        "heart_val": -0.08,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 5.395,
+        "heart_val": 0.058,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 5.456,
+        "heart_val": 0.217,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 5.559,
+        "heart_val": 0.0,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 5.648,
+        "heart_val": -0.039,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 5.786,
+        "heart_val": -0.032,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 5.871,
+        "heart_val": 0.077,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 5.944,
+        "heart_val": 0.004,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 6.097,
+        "heart_val": 0.379,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 6.188,
+        "heart_val": -0.02,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 6.214,
+        "heart_val": 0.122,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 6.314,
+        "heart_val": 0.16,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 6.416,
+        "heart_val": -0.041,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 6.557,
+        "heart_val": -0.056,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 6.704,
+        "heart_val": -0.051,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 6.78,
+        "heart_val": 0.1,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 6.918,
+        "heart_val": -0.072,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 6.994,
+        "heart_val": -0.085,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 7.04,
+        "heart_val": -0.048,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 7.186,
+        "heart_val": 0.15,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 7.309,
+        "heart_val": -0.028,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 7.372,
+        "heart_val": -0.104,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 7.516,
+        "heart_val": -0.101,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 7.59,
+        "heart_val": -0.007,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 7.693,
+        "heart_val": -0.068,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 7.78,
+        "heart_val": 0.464,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 7.889,
+        "heart_val": -0.098,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 8.005,
+        "heart_val": 0.072,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 8.101,
+        "heart_val": 0.056,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 8.18,
+        "heart_val": -0.102,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 8.246,
+        "heart_val": -0.098,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 8.406,
+        "heart_val": -0.07,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 8.492,
+        "heart_val": 0.049,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 8.584,
+        "heart_val": -0.151,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 8.668,
+        "heart_val": -0.2,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 8.813,
+        "heart_val": 0.0,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 8.892,
+        "heart_val": 0.198,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 8.985,
+        "heart_val": 0.001,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 9.064,
+        "heart_val": -0.056,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 9.166,
+        "heart_val": -0.045,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 9.337,
+        "heart_val": 0.04,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 9.405,
+        "heart_val": 0.024,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 9.447,
+        "heart_val": 0.099,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 9.552,
+        "heart_val": -0.035,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 9.698,
+        "heart_val": 0.092,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 9.748,
+        "heart_val": 0.205,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 9.906,
+        "heart_val": -0.014,
+        "sensor_type": "AppleWatch_S8"
+    },
+    {
+        "time_sec": 10.027,
+        "heart_val": -0.04,
+        "sensor_type": "AppleWatch_S8"
+    }
+]
