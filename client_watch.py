@@ -1,18 +1,16 @@
 import warnings
 warnings.simplefilter("ignore")
 import pandas as pd
+import numpy as np
 import flwr as fl
 from sklearn.neural_network import MLPClassifier
 
 print("⌚ Starting Smartwatch - Local AI Node...")
-# Note: This relies on watch_clean.csv which my teammate is making in Step 3
-try:
-    df = pd.read_csv('data/watch_clean.csv')
-    X = df[['timestamp_ms']].values
-    y = (df['ecg_mv'] > 0.5).astype(int).values 
-except FileNotFoundError:
-    print("Waiting for Step 3 to finish. Dummy data loaded for now.")
-    X, y = [[0]], [0]
+df = pd.read_csv('data/watch_clean.csv')
+
+# FOOLPROOF DATA GRAB: Force exact shapes regardless of column names
+X = df.iloc[:, 0:1].values.astype(np.float32) # Strictly grab exactly 1 column for X
+y = (df.iloc[:, 1] > 0.5).astype(int).values  # Strictly grab exactly 1 column for y
 
 model = MLPClassifier(hidden_layer_sizes=(5,), max_iter=1, warm_start=True)
 model.fit(X, y)
