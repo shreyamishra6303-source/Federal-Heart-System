@@ -332,6 +332,243 @@ body { opacity: 0; animation: pageEnter 0.7s 0.05s ease forwards; }
     .content { grid-template-columns: 1fr; }
     .right-panel { display: none; }
 }
+
+/* ===================== SETTINGS VIEW ===================== */
+#settings-view {
+    display: none;
+    flex: 1;
+    flex-direction: column;
+    overflow-y: auto;
+    background: var(--bg);
+    padding: 2rem 2.5rem;
+    gap: 1.5rem;
+}
+#settings-view.active { display: flex; }
+
+.settings-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    flex-shrink: 0;
+}
+.settings-topbar__title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text);
+}
+.settings-topbar__title span { color: var(--cyan); }
+.btn-back {
+    display: flex; align-items: center; gap: 7px;
+    background: rgba(0,242,255,0.06);
+    border: 1px solid var(--border-glow);
+    color: var(--cyan);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    padding: 0.45rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: box-shadow var(--tr), background var(--tr);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+.btn-back:hover { box-shadow: 0 0 14px rgba(0,242,255,0.35); background: rgba(0,242,255,0.12); }
+
+.s-card {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1.5rem 1.8rem;
+    flex-shrink: 0;
+    transition: border-color 0.3s;
+}
+.s-card:hover { border-color: rgba(0,242,255,0.15); }
+.s-card__head {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 1.3rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.9rem;
+}
+.s-card__icon { color: var(--cyan); filter: drop-shadow(0 0 5px var(--cyan)); flex-shrink: 0; }
+.s-card__title { font-size: 0.95rem; font-weight: 600; color: var(--text); letter-spacing: -0.01em; }
+.s-card__subtitle { font-size: 0.68rem; color: var(--text-muted); font-family: var(--font-mono); }
+
+.s-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid var(--border);
+    gap: 1rem;
+}
+.s-row:last-child { border-bottom: none; }
+.s-row__label { font-size: 0.82rem; color: var(--text); display: flex; align-items: center; gap: 8px; }
+.s-row__sub { font-size: 0.65rem; color: var(--text-muted); font-family: var(--font-mono); display: block; margin-top: 2px; }
+.s-shield {
+    width: 14px; height: 14px;
+    color: var(--text-muted);
+    transition: color 0.3s, filter 0.3s;
+    flex-shrink: 0;
+}
+.s-shield.active { color: var(--cyan); filter: drop-shadow(0 0 5px var(--cyan)); }
+
+/* Select dropdown */
+.s-select {
+    background: var(--bg-3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    padding: 0.4rem 0.7rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: border-color 0.2s;
+    min-width: 150px;
+}
+.s-select:focus { outline: none; border-color: var(--border-glow); }
+
+/* Number input */
+.s-number {
+    width: 70px;
+    background: var(--bg-3);
+    border: 1px solid var(--border);
+    color: var(--cyan);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    padding: 0.35rem 0.6rem;
+    border-radius: var(--radius-sm);
+    text-align: center;
+}
+.s-number:focus { outline: none; border-color: var(--border-glow); }
+
+/* Range slider */
+.s-slider-wrap { display: flex; align-items: center; gap: 10px; }
+.s-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 140px; height: 4px;
+    background: var(--bg-3);
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+}
+.s-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 8px rgba(0,242,255,0.6);
+    cursor: pointer;
+}
+.s-slider-val {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--cyan);
+    min-width: 36px;
+    text-align: right;
+}
+
+/* Toggle switch */
+.s-toggle { position: relative; width: 40px; height: 22px; flex-shrink: 0; }
+.s-toggle input { opacity: 0; width: 0; height: 0; }
+.s-toggle-track {
+    position: absolute; inset: 0;
+    background: var(--bg-3);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    cursor: pointer;
+    transition: background 0.3s, border-color 0.3s;
+}
+.s-toggle input:checked + .s-toggle-track {
+    background: rgba(0,242,255,0.15);
+    border-color: var(--border-glow);
+}
+.s-toggle-track::after {
+    content: '';
+    position: absolute;
+    width: 14px; height: 14px;
+    top: 3px; left: 3px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    transition: transform 0.3s, background 0.3s;
+}
+.s-toggle input:checked + .s-toggle-track::after {
+    transform: translateX(18px);
+    background: var(--cyan);
+    box-shadow: 0 0 8px rgba(0,242,255,0.7);
+}
+
+/* Text toggle (two-option) */
+.s-text-toggle { display: flex; gap: 4px; }
+.s-text-toggle__btn {
+    padding: 0.3rem 0.7rem;
+    border-radius: 20px;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    transition: all 0.2s;
+}
+.s-text-toggle__btn.active {
+    background: rgba(0,242,255,0.1);
+    border-color: var(--border-glow);
+    color: var(--cyan);
+}
+
+/* Schema chips */
+.s-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 4px; }
+.s-chip {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    color: var(--text-muted);
+    background: var(--bg-3);
+    border: 1px solid var(--border);
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.06em;
+}
+.s-chip.active { color: var(--cyan); border-color: rgba(0,242,255,0.25); background: rgba(0,242,255,0.06); }
+
+/* Save button */
+.settings-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 0.5rem;
+    padding-bottom: 2rem;
+    flex-shrink: 0;
+}
+.btn-save {
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(0,242,255,0.1);
+    border: 1px solid var(--border-glow);
+    color: var(--cyan);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.65rem 1.6rem;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: box-shadow var(--tr), background var(--tr);
+    position: relative; overflow: hidden;
+}
+.btn-save:hover {
+    box-shadow: 0 0 22px rgba(0,242,255,0.5), 0 0 60px rgba(0,242,255,0.15);
+    background: rgba(0,242,255,0.18);
+}
+.btn-save .save-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 8px var(--cyan);
+    animation: blink 1.4s ease-in-out infinite;
+}
     </style>
 </head>
 <body>
@@ -381,7 +618,7 @@ body { opacity: 0; animation: pageEnter 0.7s 0.05s ease forwards; }
                 <span>Privacy Audit</span>
             </a>
 
-            <a href="#" class="nav-item" title="Settings">
+            <a href="#" class="nav-item" id="navSettings" title="Settings">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="3"/>
                     <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
@@ -583,6 +820,140 @@ body { opacity: 0; animation: pageEnter 0.7s 0.05s ease forwards; }
         </div><!-- /content -->
     </div><!-- /main -->
 </div><!-- /app -->
+
+<!-- ===== SETTINGS OVERLAY ===== -->
+<div id="settingsShell" style="display:none;position:fixed;inset:0;flex-direction:row;height:100vh;width:100vw;background:var(--bg);z-index:50;">
+
+    <!-- Sidebar (preserved active state on Settings) -->
+    <aside style="width:var(--sidebar-w);flex-shrink:0;background:var(--bg-2);border-right:1px solid var(--border);display:flex;flex-direction:column;">
+        <a href="#" style="display:flex;align-items:center;gap:9px;padding:1.4rem 1.3rem;border-bottom:1px solid var(--border);text-decoration:none;">
+            <svg style="width:24px;height:24px;color:var(--cyan);filter:drop-shadow(0 0 6px var(--cyan));" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg>
+            <span style="font-family:var(--font-mono);font-size:0.82rem;font-weight:500;color:var(--text);letter-spacing:0.08em;">CARDIAC<span style="color:var(--cyan);">.AI</span></span>
+        </a>
+        <nav style="flex:1;display:flex;flex-direction:column;gap:2px;padding:1rem 0.7rem;overflow-y:auto;">
+            <span style="font-family:var(--font-mono);font-size:0.6rem;color:var(--text-faint);letter-spacing:0.12em;text-transform:uppercase;padding:0.8rem 0.8rem 0.3rem">Main</span>
+            <a href="#" class="nav-item" id="settingsSidebarBack" onclick="closeSettingsView(event)"><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg><span>Dashboard</span></a>
+            <a href="#" class="nav-item"><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3"/></svg><span>Data Nodes</span></a>
+            <a href="#" class="nav-item"><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Model Training</span></a>
+            <span style="font-family:var(--font-mono);font-size:0.6rem;color:var(--text-faint);letter-spacing:0.12em;text-transform:uppercase;padding:0.8rem 0.8rem 0.3rem">Compliance</span>
+            <a href="#" class="nav-item"><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>Privacy Audit</span></a>
+            <a href="#" class="nav-item active"><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg><span>Settings</span></a>
+        </nav>
+        <div style="padding:1rem 0.7rem 1.2rem;border-top:1px solid var(--border);">
+            <button class="btn-federated"><span class="btn-federated-dot"></span><span>Start New Federated Round</span></button>
+        </div>
+    </aside>
+
+    <!-- Settings content panel -->
+    <div id="settings-view" class="active">
+
+        <div class="settings-topbar">
+            <div>
+                <div class="settings-topbar__title">System <span>Settings</span></div>
+                <div style="font-size:0.68rem;color:var(--text-muted);font-family:var(--font-mono);margin-top:3px;">Project Athena &middot; CardiacAI Federal v2.0</div>
+            </div>
+            <button class="btn-back" id="btnBackDash" onclick="closeSettingsView(event)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+                Back to Dashboard
+            </button>
+        </div>
+
+        <!-- Card 1: Federated Learning Configuration -->
+        <div class="s-card">
+            <div class="s-card__head">
+                <svg class="s-card__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                <div><div class="s-card__title">Global Hyper-parameters</div><div class="s-card__subtitle">Federated Learning Configuration</div></div>
+            </div>
+            <div class="s-row">
+                <label class="s-row__label">Aggregation Strategy<span class="s-row__sub">Algorithm used to merge model updates</span></label>
+                <select class="s-select" id="aggStrategy"><option value="fedprox">FedProx</option><option value="fedavg">FedAvg</option><option value="personalized">Personalized</option></select>
+            </div>
+            <div class="s-row">
+                <label class="s-row__label">Global Rounds<span class="s-row__sub">Total training rounds across all nodes</span></label>
+                <div class="s-slider-wrap">
+                    <input type="range" class="s-slider" id="roundsSlider" min="10" max="500" value="100" step="10">
+                    <span class="s-slider-val" id="roundsVal">100</span>
+                </div>
+            </div>
+            <div class="s-row">
+                <label class="s-row__label">Client Selection<span class="s-row__sub">How participating nodes are chosen each round</span></label>
+                <div class="s-text-toggle">
+                    <button class="s-text-toggle__btn active" data-group="client">Random</button>
+                    <button class="s-text-toggle__btn" data-group="client">Contribution</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2: Privacy & Security -->
+        <div class="s-card">
+            <div class="s-card__head">
+                <svg class="s-card__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <div><div class="s-card__title">Privacy Guard Rails</div><div class="s-card__subtitle">Differential Privacy &amp; Secure Aggregation</div></div>
+            </div>
+            <div class="s-row">
+                <label class="s-row__label">
+                    <svg class="s-shield active" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    &epsilon;-DP Budget<span class="s-row__sub">Lower = stronger privacy, higher = better utility</span>
+                </label>
+                <div class="s-slider-wrap">
+                    <input type="range" class="s-slider" id="epsilonSlider" min="1" max="100" value="10" step="1">
+                    <span class="s-slider-val" id="epsilonVal">0.10</span>
+                </div>
+            </div>
+            <div class="s-row">
+                <label class="s-row__label">
+                    <svg class="s-shield" id="noiseShield" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    Noise Calibration<span class="s-row__sub">Mechanism for injecting gradient noise</span>
+                </label>
+                <div class="s-text-toggle">
+                    <button class="s-text-toggle__btn active" data-group="noise">Laplacian</button>
+                    <button class="s-text-toggle__btn" data-group="noise">Gaussian</button>
+                </div>
+            </div>
+            <div class="s-row">
+                <label class="s-row__label">
+                    <svg class="s-shield" id="smpcShield" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    Secure Aggregation (SMPC)<span class="s-row__sub">Multi-party computation for gradient privacy</span>
+                </label>
+                <label class="s-toggle">
+                    <input type="checkbox" id="smpcToggle" checked>
+                    <span class="s-toggle-track"></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Card 3: Universal Translation Engine -->
+        <div class="s-card">
+            <div class="s-card__head">
+                <svg class="s-card__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+                <div><div class="s-card__title">Universal Translation Engine</div><div class="s-card__subtitle">Node Connectivity &amp; Data Schema Mapping</div></div>
+            </div>
+            <div class="s-row">
+                <label class="s-row__label">Auto-Mapping<span class="s-row__sub">Enable automatic jargon &amp; schema translation</span></label>
+                <label class="s-toggle">
+                    <input type="checkbox" id="autoMapToggle" checked>
+                    <span class="s-toggle-track"></span>
+                </label>
+            </div>
+            <div class="s-row" style="flex-direction:column;align-items:flex-start;gap:0.7rem;">
+                <div class="s-row__label">Connected Data Schemas<span class="s-row__sub">Read-only &middot; Detected at node handshake</span></div>
+                <div class="s-chips">
+                    <span class="s-chip active">HL7 FHIR</span>
+                    <span class="s-chip active">CSV-Standard</span>
+                    <span class="s-chip active">AppleHealth-JSON</span>
+                    <span class="s-chip">DICOM</span>
+                    <span class="s-chip">OpenEHR</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="settings-footer">
+            <button class="btn-save" id="btnSave"><span class="save-dot"></span>Save Changes</button>
+        </div>
+
+    </div><!-- /settings-view -->
+</div><!-- /settingsShell -->
 
 <!-- ============================= SCRIPTS ============================= -->
 <script>
@@ -926,6 +1297,88 @@ body { opacity: 0; animation: pageEnter 0.7s 0.05s ease forwards; }
             setTimeout(() => { this.innerHTML = orig; this.style.color = ''; this.style.borderColor = ''; }, 3000);
         });
     }
+
+    /* ===================================================
+       5. SETTINGS PAGE LOGIC
+    =================================================== */
+    (function() {
+        const shell    = document.getElementById('settingsShell');
+        const navBtn   = document.getElementById('navSettings');
+        const backBtn  = document.getElementById('btnBackDash');
+        const sideBack = document.getElementById('settingsSidebarBack');
+
+        function openSettings(e) {
+            if (e) e.preventDefault();
+            document.getElementById('settingsShell').style.display = 'flex';
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            if (navBtn) navBtn.classList.add('active');
+        }
+        function closeSettings(e) {
+            if (e) e.preventDefault();
+            document.getElementById('settingsShell').style.display = 'none';
+        }
+
+        // Global so onclick attributes can call it
+        window.closeSettingsView = closeSettings;
+        window.openSettingsView  = openSettings;
+
+        if (navBtn)   navBtn.addEventListener('click',   openSettings);
+        if (backBtn)  backBtn.addEventListener('click',  closeSettings);
+        if (sideBack) sideBack.addEventListener('click', closeSettings);
+
+        // Rounds slider
+        const roundsSlider = document.getElementById('roundsSlider');
+        const roundsVal    = document.getElementById('roundsVal');
+        if (roundsSlider) {
+            roundsSlider.addEventListener('input', () => { roundsVal.textContent = roundsSlider.value; });
+        }
+
+        // Epsilon slider — maps 1-100 to 0.01-1.0
+        const epsSlider = document.getElementById('epsilonSlider');
+        const epsVal    = document.getElementById('epsilonVal');
+        if (epsSlider) {
+            epsSlider.addEventListener('input', () => {
+                epsVal.textContent = (epsSlider.value / 100).toFixed(2);
+            });
+        }
+
+        // Text toggle buttons (groups)
+        document.querySelectorAll('.s-text-toggle__btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const group = btn.dataset.group;
+                document.querySelectorAll(`.s-text-toggle__btn[data-group="${group}"]`)
+                    .forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // SMPC shield glow when toggle changes
+        const smpcToggle = document.getElementById('smpcToggle');
+        const smpcShield = document.getElementById('smpcShield');
+        if (smpcToggle && smpcShield) {
+            smpcToggle.addEventListener('change', () => {
+                smpcShield.classList.toggle('active', smpcToggle.checked);
+            });
+        }
+
+        // Save button feedback
+        const saveBtn = document.getElementById('btnSave');
+        if (saveBtn) {
+            saveBtn.addEventListener('click', () => {
+                const orig = saveBtn.innerHTML;
+                saveBtn.style.background   = 'rgba(0,255,136,0.15)';
+                saveBtn.style.borderColor  = 'rgba(0,255,136,0.5)';
+                saveBtn.style.color        = '#00ff88';
+                saveBtn.innerHTML          = '<span class="save-dot" style="background:#00ff88;box-shadow:0 0 8px #00ff88"></span>Saved!';
+                setTimeout(() => {
+                    saveBtn.innerHTML         = orig;
+                    saveBtn.style.background  = '';
+                    saveBtn.style.borderColor = '';
+                    saveBtn.style.color       = '';
+                }, 2200);
+            });
+        }
+    })();
 </script>
 </body>
 </html>
