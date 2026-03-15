@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Federated Cardiac AI — Owkin-Inspired Research Platform</title>
+    <meta name="description" content="A next-generation federated learning platform for cardiac research, enabling privacy-preserving AI across global hospital networks.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="nav" id="navbar">
+        <div class="nav__brand">
+            <svg class="nav__logo-icon" viewBox="0 0 24 24" fill="none">
+                <path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z" fill="currentColor"/>
+            </svg>
+            <span class="nav__brand-name">CardiacAI <span class="nav__brand-tag">Federal</span></span>
+        </div>
+        <ul class="nav__links">
+            <li><a href="#hero" class="nav__link">Overview</a></li>
+            <li><a href="#translation" class="nav__link">Engine</a></li>
+            <li><a href="#dashboard" class="nav__link">Dashboard</a></li>
+            <li><a href="#faq" class="nav__link">FAQ</a></li>
+        </ul>
+        <a href="#dashboard" class="nav__cta btn btn--glow">Request Access</a>
+    </nav>
+
+    <!-- ===== PHASE 1: HERO & GENESIS (Sticky Container) ===== -->
+    <section id="hero" class="hero-scroll-track" aria-label="Heart Genesis Animation">
+
+        <!-- Sticky canvas that stays fixed while user scrolls -->
+        <div class="sticky-heart-container">
+            <!-- Canvas for the 3D heart cell animation -->
+            <canvas id="heartCanvas" aria-label="3D Heart Genesis Animation"></canvas>
+
+            <!-- Overlaid scroll progress text labels -->
+            <div class="hero-text-overlay" id="heroTextOverlay">
+                <div class="hero-label label--phase-0" id="labelPhase0">
+                    <span class="label__eyebrow">Federated Cardiac AI</span>
+                    <h1 class="hero__headline">Where Cells Become <span class="accent">Intelligence</span></h1>
+                    <p class="hero__sub">A privacy-preserving federated learning platform for global cardiac research. Scroll to witness genesis.</p>
+                    <div class="hero__scroll-hint">
+                        <span>Scroll to explore</span>
+                        <div class="scroll-arrow"></div>
+                    </div>
+                </div>
+
+                <div class="hero-label label--phase-1 hidden-label" id="labelPhase1">
+                    <span class="label__eyebrow">Phase I · Noise Convergence</span>
+                    <h2 class="phase__headline">Data Finds Its Form</h2>
+                    <p class="phase__sub">Raw telemetry from 3,200+ devices converging into a singular computational node.</p>
+                </div>
+
+                <div class="hero-label label--phase-2 hidden-label" id="labelPhase2">
+                    <span class="label__eyebrow">Phase II · Cellular Duplication</span>
+                    <h2 class="phase__headline">Exponential Growth</h2>
+                    <p class="phase__sub">One cell branches into the full topological map of the human heart — 4 billion data points.</p>
+                </div>
+
+                <div class="hero-label label--phase-3 hidden-label" id="labelPhase3">
+                    <span class="label__eyebrow">Phase III · Vascular Network</span>
+                    <h2 class="phase__headline">Arteries of Data</h2>
+                    <p class="phase__sub">Arterial (oxygenated) and venous (deoxygenated) data streams rendered with femtosecond precision.</p>
+                </div>
+
+                <div class="hero-label label--phase-4 hidden-label" id="labelPhase4">
+                    <span class="label__eyebrow">Phase IV · Living Organ</span>
+                    <h2 class="phase__headline">A Heart That Thinks</h2>
+                    <p class="phase__sub">The organ is complete. Federated gradients flow in real-time — no raw data ever leaves the node.</p>
+                    <div class="pulse-badge">
+                        <span class="pulse-dot"></span>
+                        72 BPM · Federated Sync Active
+                    </div>
+                </div>
+            </div>
+
+            <!-- Floating binary noise overlay -->
+            <div class="binary-rain" id="binaryRain" aria-hidden="true"></div>
+        </div>
+
+    </section>
+
+    <!-- ===== PHASE 2: LOCAL TRANSLATION ENGINE ===== -->
+    <section id="translation" class="section translation-section" aria-label="Local Translation Engine">
+        <div class="section__container">
+            <div class="section__badge reveal-item">Translation Engine</div>
+            <h2 class="section__title reveal-item">Local Translation: <span class="accent">Solving Dirty Data</span></h2>
+            <p class="section__sub reveal-item">
+                Normalizing heterogeneous data architectures into a universal schema for Federated Learning.
+                No raw data is ever centralized or transmitted.
+            </p>
+
+            <div class="translation-flow reveal-item" id="translationFlow">
+                <!-- Left: Data Sources -->
+                <div class="source-column">
+                    <div class="source-card" data-delay="0">
+                        <div class="source-card__icon">
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                <path d="M6 12h1M17 12h1M12 6v1M12 17v1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <div class="source-card__info">
+                            <span class="source-card__name">Smart Watch</span>
+                            <span class="source-card__format">JSON · Messy · Gaps</span>
+                        </div>
+                        <div class="source-card__status status--warn">⚠ Raw</div>
+                    </div>
+                    <div class="source-card" data-delay="150">
+                        <div class="source-card__icon">
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M7 8h10M7 12h7M7 16h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <div class="source-card__info">
+                            <span class="source-card__name">Hospital EHR</span>
+                            <span class="source-card__format">HL7 FHIR · v2.4</span>
+                        </div>
+                        <div class="source-card__status status--warn">⚠ Raw</div>
+                    </div>
+                    <div class="source-card" data-delay="300">
+                        <div class="source-card__icon">
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <div class="source-card__info">
+                            <span class="source-card__name">ECG Monitor</span>
+                            <span class="source-card__format">CSV · Multi-Lead</span>
+                        </div>
+                        <div class="source-card__status status--warn">⚠ Raw</div>
+                    </div>
+                </div>
+
+                <!-- Center: Interceptor Pillar -->
+                <div class="interceptor-pillar" id="interceptorPillar">
+                    <div class="pillar__glow-core"></div>
+                    <div class="pillar__beam beam--top"></div>
+                    <div class="pillar__beam beam--bottom"></div>
+                    <div class="pillar__label">
+                        <span class="mono">LOCAL</span>
+                        <span class="mono accent">INTERCEPTOR</span>
+                        <span class="mono">v3.1.0</span>
+                    </div>
+                    <div class="pillar__particles" id="pillarParticles"></div>
+                </div>
+
+                <!-- Right: Tensor Outputs -->
+                <div class="tensor-column">
+                    <div class="tensor-card" data-delay="200">
+                        <div class="tensor-card__header">
+                            <span class="mono accent" style="font-size:0.75rem">TENSOR[0]</span>
+                            <span class="tensor-card__badge">Normalized</span>
+                        </div>
+                        <div class="tensor-visual">
+                            <div class="tensor-row">
+                                <span class="tensor-val">0.712</span>
+                                <span class="tensor-val">0.883</span>
+                                <span class="tensor-val">0.234</span>
+                            </div>
+                            <div class="tensor-row">
+                                <span class="tensor-val">0.119</span>
+                                <span class="tensor-val">0.956</span>
+                                <span class="tensor-val">0.448</span>
+                            </div>
+                            <div class="tensor-row">
+                                <span class="tensor-val">0.637</span>
+                                <span class="tensor-val">0.291</span>
+                                <span class="tensor-val">0.804</span>
+                            </div>
+                        </div>
+                        <span class="tensor-card__dim">Shape: [1, 3, 64, 64]</span>
+                    </div>
+                    <div class="tensor-card" data-delay="400">
+                        <div class="tensor-card__header">
+                            <span class="mono accent" style="font-size:0.75rem">TENSOR[1]</span>
+                            <span class="tensor-card__badge">Normalized</span>
+                        </div>
+                        <div class="tensor-visual">
+                            <div class="tensor-row">
+                                <span class="tensor-val">0.521</span>
+                                <span class="tensor-val">0.147</span>
+                                <span class="tensor-val">0.793</span>
+                            </div>
+                            <div class="tensor-row">
+                                <span class="tensor-val">0.862</span>
+                                <span class="tensor-val">0.403</span>
+                                <span class="tensor-val">0.671</span>
+                            </div>
+                        </div>
+                        <span class="tensor-card__dim">Shape: [1, 2, 128, 1]</span>
+                    </div>
+                    <div class="status--clean-badge" data-delay="600">
+                        <span class="clean-dot"></span>
+                        Universal Schema · Ready for FL
+                    </div>
+                </div>
+            </div>
+
+            <!-- Schema definition -->
+            <div class="schema-block reveal-item">
+                <div class="schema-block__header">
+                    <span class="mono" style="color:#7cfc00;font-size:0.8rem">▶ universal_schema.proto</span>
+                    <span class="mono" style="color:#555;font-size:0.75rem">// AUTO-GENERATED BY LOCAL INTERCEPTOR</span>
+                </div>
+<pre class="schema-code mono"><span class="code-kw">message</span> <span class="code-type">CardiacSample</span> {
+  <span class="code-kw">required</span> <span class="code-type">float</span>  heart_rate     = 1;   <span class="code-comment">// Normalized [0,1]</span>
+  <span class="code-kw">required</span> <span class="code-type">float</span>  hrv_rmssd      = 2;   <span class="code-comment">// ms → normalized</span>
+  <span class="code-kw">repeated</span> <span class="code-type">float</span>  ecg_leads      = 3;   <span class="code-comment">// 12-lead or subset</span>
+  <span class="code-kw">optional</span> <span class="code-type">string</span> source_device  = 4;   <span class="code-comment">// Anonymized</span>
+  <span class="code-kw">optional</span> <span class="code-type">int64</span>  timestamp_utc  = 5;   <span class="code-comment">// Unix epoch</span>
+}</pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PHASE 3: COLLABORATIVE DASHBOARD ===== -->
+    <section id="dashboard" class="section dashboard-section" aria-label="Collaborative Dashboard">
+        <div class="section__container">
+            <div class="section__badge reveal-item">Live Dashboard</div>
+            <h2 class="section__title reveal-item">Collaborative Learning, <span class="accent">Zero Data Sharing</span></h2>
+            <p class="section__sub reveal-item">
+                Global hospital networks train a shared model — only encrypted gradients travel the wire.
+                Raw patient data never leaves its origin.
+            </p>
+
+            <div class="dashboard-card reveal-item" id="dashboardCard">
+
+                <!-- Dashboard Header Row -->
+                <div class="dashboard-topbar">
+                    <div class="dashboard-topbar__title">
+                        <span class="status-dot status-dot--live"></span>
+                        <span class="mono" style="font-size:0.85rem">FEDERAL TRAINING RUN · Round 47/100</span>
+                    </div>
+                    <div class="dashboard-topbar__badges">
+                        <div class="privacy-badge">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5L12 1z"/>
+                            </svg>
+                            Differential Privacy: Active (ε=0.1)
+                        </div>
+                        <div class="privacy-badge privacy-badge--sec">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                            </svg>
+                            AES-256 Encrypted
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dashboard 3-column layout -->
+                <div class="dashboard-grid">
+
+                    <!-- World Map Column -->
+                    <div class="dashboard-panel panel--map">
+                        <h3 class="panel__title">Active Nodes</h3>
+                        <div class="world-map" id="worldMap">
+                            <svg class="world-map__svg" viewBox="0 0 500 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Simplified world map paths -->
+                                <!-- North America -->
+                                <path d="M60 80 Q80 60 110 70 Q140 65 160 80 Q180 90 175 110 Q165 130 150 140 Q130 155 110 150 Q85 145 70 130 Q50 115 60 80Z" fill="#1a2030" stroke="#2a3545" stroke-width="0.5"/>
+                                <!-- South America -->
+                                <path d="M100 155 Q130 150 145 165 Q155 175 150 195 Q145 215 135 230 Q120 245 105 240 Q90 230 88 210 Q85 190 90 175 Q95 160 100 155Z" fill="#1a2030" stroke="#2a3545" stroke-width="0.5"/>
+                                <!-- Europe -->
+                                <path d="M215 65 Q235 55 255 60 Q270 65 275 80 Q272 95 260 100 Q245 105 230 100 Q215 92 210 80 Q210 72 215 65Z" fill="#1a2030" stroke="#2a3545" stroke-width="0.5"/>
+                                <!-- Africa -->
+                                <path d="M220 110 Q245 105 265 115 Q280 128 278 150 Q275 175 265 195 Q250 215 235 218 Q220 215 210 200 Q200 180 202 158 Q205 135 215 120 Q218 114 220 110Z" fill="#1a2030" stroke="#2a3545" stroke-width="0.5"/>
+                                <!-- Asia -->
+                                <path d="M270 60 Q310 45 360 55 Q400 62 420 75 Q435 88 430 105 Q418 120 395 125 Q365 130 330 120 Q295 110 278 95 Q265 80 270 60Z" fill="#1a2030" stroke="#2a3545" stroke-width="0.5"/>
+                                <!-- Australia -->
+                                <path d="M375 175 Q400 168 420 180 Q435 192 430 210 Q420 225 400 228 Q380 225 370 210 Q362 195 368 183 Q372 177 375 175Z" fill="#1a2030" stroke="#2a3545" stroke-width="0.5"/>
+                                <!-- Connection lines -->
+                                <line class="map-connection" x1="134" y1="105" x2="245" y2="75" stroke="#00f2ff" stroke-width="0.6" stroke-dasharray="4,3" opacity="0.4"/>
+                                <line class="map-connection" x1="245" y1="75" x2="355" y2="82" stroke="#00f2ff" stroke-width="0.6" stroke-dasharray="4,3" opacity="0.4"/>
+                                <line class="map-connection" x1="134" y1="105" x2="355" y2="82" stroke="#00f2ff" stroke-width="0.6" stroke-dasharray="4,3" opacity="0.2"/>
+                                <!-- City Pulse Dots -->
+                                <!-- NYC -->
+                                <circle class="map-pulse-outer" cx="134" cy="105" r="8" fill="none" stroke="#00f2ff" stroke-width="1"/>
+                                <circle class="map-pulse-inner" cx="134" cy="105" r="3" fill="#00f2ff"/>
+                                <text x="140" y="100" fill="#00f2ff" font-size="8" font-family="monospace">NYC</text>
+                                <!-- London -->
+                                <circle class="map-pulse-outer" cx="245" cy="75" r="8" fill="none" stroke="#00f2ff" stroke-width="1" style="animation-delay:0.5s"/>
+                                <circle class="map-pulse-inner" cx="245" cy="75" r="3" fill="#00f2ff"/>
+                                <text x="251" y="70" fill="#00f2ff" font-size="8" font-family="monospace">LON</text>
+                                <!-- Tokyo -->
+                                <circle class="map-pulse-outer" cx="395" cy="85" r="8" fill="none" stroke="#00f2ff" stroke-width="1" style="animation-delay:1s"/>
+                                <circle class="map-pulse-inner" cx="395" cy="85" r="3" fill="#00f2ff"/>
+                                <text x="401" y="80" fill="#00f2ff" font-size="8" font-family="monospace">TKY</text>
+                            </svg>
+                            <div class="map-legend">
+                                <span class="mono" style="font-size:0.65rem;color:#00f2ff">● 3 Active Nodes</span>
+                                <span class="mono" style="font-size:0.65rem;color:#555">· · · Gradient Sync</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Training Graph Column -->
+                    <div class="dashboard-panel panel--graph">
+                        <h3 class="panel__title">Global Accuracy Curve</h3>
+                        <div class="training-graph" id="trainingGraph">
+                            <svg class="graph__svg" viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Grid lines -->
+                                <line x1="40" y1="20" x2="40" y2="140" stroke="#1f2937" stroke-width="1"/>
+                                <line x1="40" y1="140" x2="290" y2="140" stroke="#1f2937" stroke-width="1"/>
+                                <!-- Y axis labels -->
+                                <text x="5" y="25" fill="#555" font-size="8" font-family="monospace">100%</text>
+                                <text x="10" y="65" fill="#555" font-size="8" font-family="monospace">75%</text>
+                                <text x="10" y="103" fill="#555" font-size="8" font-family="monospace">50%</text>
+                                <text x="10" y="143" fill="#555" font-size="8" font-family="monospace">25%</text>
+                                <!-- Grid horizontals -->
+                                <line x1="40" y1="20" x2="290" y2="20" stroke="#1a1f2b" stroke-width="1"/>
+                                <line x1="40" y1="60" x2="290" y2="60" stroke="#1a1f2b" stroke-width="1"/>
+                                <line x1="40" y1="100" x2="290" y2="100" stroke="#1a1f2b" stroke-width="1"/>
+                                <!-- Baseline loss curve (red, fading) -->
+                                <polyline class="graph__line graph__line--loss"
+                                    points="40,130 65,125 90,118 115,112 140,108 165,105 190,104 215,103 240,102 265,102 290,101"
+                                    fill="none" stroke="#ff4466" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+                                <!-- Main accuracy polyline - drawn by JS animation -->
+                                <polyline id="accCurve"
+                                    points="40,135"
+                                    fill="none" stroke="#00f2ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <!-- Area fill under accuracy curve -->
+                                <defs>
+                                    <linearGradient id="accGrad" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stop-color="#00f2ff" stop-opacity="0.25"/>
+                                        <stop offset="100%" stop-color="#00f2ff" stop-opacity="0"/>
+                                    </linearGradient>
+                                </defs>
+                                <polygon id="accArea" points="40,140 40,135 40,140" fill="url(#accGrad)"/>
+                                <!-- Current position dot -->
+                                <circle id="graphDot" cx="40" cy="135" r="4" fill="#00f2ff" filter="url(#dotGlow)"/>
+                                <defs>
+                                    <filter id="dotGlow">
+                                        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                        <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                    </filter>
+                                </defs>
+                            </svg>
+                            <div class="graph-meta">
+                                <span class="mono" style="font-size:0.7rem;color:#00f2ff" id="accLabel">Accuracy: 12.4%</span>
+                                <span class="mono" style="font-size:0.7rem;color:#ff4466">Loss: 0.871</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats Column -->
+                    <div class="dashboard-panel panel--stats">
+                        <h3 class="panel__title">Round Metrics</h3>
+                        <div class="stat-rows">
+                            <div class="stat-row">
+                                <span class="stat-row__label">Global Accuracy</span>
+                                <div class="stat-row__bar-track">
+                                    <div class="stat-row__bar" data-pct="89" style="--pct:89%"></div>
+                                </div>
+                                <span class="stat-row__val accent">89.2%</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-row__label">Node Participation</span>
+                                <div class="stat-row__bar-track">
+                                    <div class="stat-row__bar" data-pct="100" style="--pct:100%;background:#7cfc00"></div>
+                                </div>
+                                <span class="stat-row__val" style="color:#7cfc00">3/3</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-row__label">Privacy Budget (ε)</span>
+                                <div class="stat-row__bar-track">
+                                    <div class="stat-row__bar" data-pct="10" style="--pct:10%;background:#ff4466"></div>
+                                </div>
+                                <span class="stat-row__val" style="color:#ff4466">0.1</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-row__label">Gradient Compression</span>
+                                <div class="stat-row__bar-track">
+                                    <div class="stat-row__bar" data-pct="94" style="--pct:94%;background:#bf5fff"></div>
+                                </div>
+                                <span class="stat-row__val" style="color:#bf5fff">94.1%</span>
+                            </div>
+                        </div>
+
+                        <div class="live-feed" id="liveFeed">
+                            <div class="live-feed__header mono" style="font-size:0.7rem;color:#555;margin-bottom:0.5rem">LIVE GRADIENT LOG</div>
+                            <div class="feed-line mono" id="feedLine1">→ NYC node sent 12KB gradient</div>
+                            <div class="feed-line mono" id="feedLine2">→ LON node sent 11KB gradient</div>
+                            <div class="feed-line mono" id="feedLine3">→ Aggregating round 47...</div>
+                            <div class="feed-line mono" id="feedLine4">→ Broadcasting new weights</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PHASE 4: FAQS & FOOTER ===== -->
+    <section id="faq" class="section faq-section" aria-label="Frequently Asked Questions">
+        <div class="section__container">
+            <div class="section__badge reveal-item">FAQ</div>
+            <h2 class="section__title reveal-item">Common Questions</h2>
+            <p class="section__sub reveal-item">Everything you need to know about our federated cardiac AI platform.</p>
+
+            <div class="faq-list" id="faqList">
+                <!-- FAQ items generated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer" aria-label="Site Footer">
+        <div class="footer__inner">
+            <div class="footer__brand">
+                <svg class="footer__logo" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/>
+                </svg>
+                <span>CardiacAI Federal</span>
+            </div>
+            <nav class="footer__links" aria-label="Footer navigation">
+                <a href="#" class="footer__link">Privacy Policy</a>
+                <a href="#" class="footer__link">IRB Compliance</a>
+                <a href="#" class="footer__link">HIPAA Notice</a>
+                <a href="#" class="footer__link">Documentation</a>
+                <a href="#" class="footer__link">Research Papers</a>
+            </nav>
+            <p class="footer__copy">&copy; 2026 Federal Heart System. Open-source research platform. Not for clinical use.</p>
+        </div>
+    </footer>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
