@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Access — CardiacAI Federal</title>
+    <meta name="description" content="Apply to join the Federated Cardiac AI network as a research institution or hospital node.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+           REQUEST ACCESS PAGE — CardiacAI Federal
+           Dark clinical aesthetic · Glassmorphism · Cyan accent #00f2ff
+        ============================================================ */
+
+        :root {
+            --bg:           #0a0a0b;
+            --bg-2:         #0f1117;
+            --bg-3:         #161b25;
+            --border:       rgba(255,255,255,0.06);
+            --border-glow:  rgba(0,242,255,0.25);
+            --cyan:         #00f2ff;
+            --cyan-dim:     rgba(0,242,255,0.08);
+            --cyan-mid:     rgba(0,242,255,0.4);
+            --red:          #ff4466;
+            --text:         #e2e8f0;
+            --text-muted:   #64748b;
+            --text-faint:   #2d3748;
+            --radius-sm:    8px;
+            --radius-md:    16px;
+            --radius-lg:    24px;
+            --font-main:    'Inter', system-ui, sans-serif;
+            --font-mono:    'JetBrains Mono', 'Courier New', monospace;
+            --transition:   0.4s cubic-bezier(0.4,0,0.2,1);
+            --glow-cyan:    0 0 20px rgba(0,242,255,0.4), 0 0 60px rgba(0,242,255,0.15);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; font-size: 16px; }
+
+        body {
+            font-family: var(--font-main);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* -------------------- BACKGROUND CANVAS -------------------- */
+        #bgCanvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            opacity: 0.55;
+            pointer-events: none;
+        }
+
+        /* Subtle radial gradient overlay on top of bg */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 15% 20%, rgba(0,242,255,0.06) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 80%, rgba(59,130,246,0.05) 0%, transparent 55%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* -------------------- TOP NAV BAR -------------------- */
+        .top-bar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            padding: 1.1rem 3rem;
+            background: rgba(10,10,11,0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color var(--transition);
+        }
+        .back-btn:hover { color: var(--cyan); }
+        .back-btn svg { width: 18px; height: 18px; flex-shrink: 0; transition: transform 0.2s; }
+        .back-btn:hover svg { transform: translateX(-3px); }
+
+        .top-bar__brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: auto;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text);
+        }
+        .top-bar__brand svg {
+            width: 20px; height: 20px;
+            color: var(--cyan);
+            filter: drop-shadow(0 0 5px var(--cyan));
+        }
+        .brand-tag {
+            font-size: 0.68rem;
+            font-weight: 500;
+            color: var(--cyan);
+            background: var(--cyan-dim);
+            border: 1px solid var(--border-glow);
+            padding: 2px 7px;
+            border-radius: 20px;
+            letter-spacing: 0.05em;
+            font-family: var(--font-mono);
+        }
+
+        /* -------------------- MAIN LAYOUT -------------------- */
+        .page-body {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 1.5rem 3rem;
+        }
+
+        /* -------------------- GLASS CARD -------------------- */
+        .portal-card {
+            width: 100%;
+            max-width: 520px;
+            background: rgba(15, 17, 23, 0.72);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid var(--border-glow);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem 2.8rem;
+            box-shadow:
+                0 0 0 1px rgba(0,242,255,0.05),
+                0 8px 64px rgba(0,0,0,0.6),
+                inset 0 1px 0 rgba(255,255,255,0.04);
+            animation: cardFadeIn 0.7s ease both;
+        }
+        @keyframes cardFadeIn {
+            from { opacity: 0; transform: translateY(28px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------- MINI HEART VISUAL -------------------- */
+        .mini-heart-wrap {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.6rem;
+        }
+        .mini-heart {
+            position: relative;
+            width: 56px;
+            height: 56px;
+        }
+        .mini-heart svg {
+            width: 100%;
+            height: 100%;
+            color: var(--cyan);
+            filter: drop-shadow(0 0 12px var(--cyan)) drop-shadow(0 0 28px rgba(0,242,255,0.3));
+            animation: heartBeat 1.4s ease-in-out infinite;
+        }
+        .mini-heart::after {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0,242,255,0.12), transparent 70%);
+            animation: heartGlow 1.4s ease-in-out infinite;
+        }
+        @keyframes heartBeat {
+            0%,100% { transform: scale(1); }
+            15%      { transform: scale(1.18); }
+            30%      { transform: scale(1); }
+            45%      { transform: scale(1.1); }
+            60%      { transform: scale(1); }
+        }
+        @keyframes heartGlow {
+            0%,100% { opacity: 0.5; transform: scale(1); }
+            15%      { opacity: 1;   transform: scale(1.3); }
+            60%      { opacity: 0.5; transform: scale(1); }
+        }
+
+        /* -------------------- CARD HEADER -------------------- */
+        .card__eyebrow {
+            display: block;
+            text-align: center;
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            color: var(--cyan);
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            margin-bottom: 0.6rem;
+        }
+        .card__title {
+            text-align: center;
+            font-size: 1.65rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.25;
+            margin-bottom: 0.5rem;
+        }
+        .card__subtitle {
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            line-height: 1.65;
+            margin-bottom: 2rem;
+        }
+
+        /* -------------------- FORM FIELDS -------------------- */
+        .form-group {
+            margin-bottom: 1.25rem;
+            opacity: 0;
+            transform: translateY(14px);
+            animation: fieldFadeIn 0.5s ease forwards;
+        }
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.18s; }
+        .form-group:nth-child(3) { animation-delay: 0.26s; }
+        .form-group:nth-child(4) { animation-delay: 0.34s; }
+        .form-group:nth-child(5) { animation-delay: 0.42s; }
+        .form-group:nth-child(6) { animation-delay: 0.50s; }
+        @keyframes fieldFadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-bottom: 0.45rem;
+            letter-spacing: 0.04em;
+        }
+        label .required { color: var(--cyan); margin-left: 2px; }
+
+        input[type="text"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: var(--radius-sm);
+            color: var(--text);
+            font-family: var(--font-main);
+            font-size: 0.9rem;
+            padding: 0.7rem 0.95rem;
+            outline: none;
+            transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+            appearance: none;
+        }
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: rgba(0,242,255,0.45);
+            background: rgba(0,242,255,0.03);
+            box-shadow: 0 0 0 3px rgba(0,242,255,0.07);
+        }
+        input.invalid {
+            border-color: rgba(255,68,102,0.5);
+            box-shadow: 0 0 0 3px rgba(255,68,102,0.08);
+        }
+        .field-error {
+            font-size: 0.72rem;
+            color: var(--red);
+            margin-top: 0.35rem;
+            font-family: var(--font-mono);
+            display: none;
+        }
+        .field-error.visible { display: block; }
+
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.9rem center;
+            padding-right: 2.5rem;
+            cursor: pointer;
+        }
+        select option { background: #0f1117; }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* -------------------- TOGGLE SWITCH -------------------- */
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 0.8rem 0.95rem;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: var(--radius-sm);
+        }
+        .toggle-label-text {
+            font-size: 0.875rem;
+            color: var(--text);
+            font-weight: 400;
+        }
+        .toggle-label-sub {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+            font-family: var(--font-mono);
+        }
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+            position: absolute;
+        }
+        .toggle-track {
+            position: absolute;
+            inset: 0;
+            border-radius: 24px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+            transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+        .toggle-track::after {
+            content: '';
+            position: absolute;
+            top: 3px; left: 3px;
+            width: 16px; height: 16px;
+            border-radius: 50%;
+            background: var(--text-muted);
+            transition: transform 0.3s, background 0.3s;
+        }
+        .toggle-switch input:checked + .toggle-track {
+            background: var(--cyan-dim);
+            border-color: var(--border-glow);
+            box-shadow: 0 0 10px rgba(0,242,255,0.2);
+        }
+        .toggle-switch input:checked + .toggle-track::after {
+            transform: translateX(20px);
+            background: var(--cyan);
+        }
+
+        /* -------------------- SUBMIT BUTTON -------------------- */
+        .btn-submit-wrap {
+            margin-top: 1.75rem;
+            opacity: 0;
+            animation: fieldFadeIn 0.5s ease 0.58s forwards;
+        }
+        .btn-submit {
+            width: 100%;
+            padding: 0.9rem;
+            border-radius: 40px;
+            border: none;
+            background: var(--cyan);
+            color: #0a0a0b;
+            font-family: var(--font-main);
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: box-shadow var(--transition), transform 0.2s;
+        }
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 40px;
+            background: transparent;
+            border: 2px solid rgba(0,242,255,0);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .btn-submit:hover {
+            box-shadow: var(--glow-cyan), 0 0 60px rgba(0,242,255,0.25);
+            transform: translateY(-1px);
+        }
+        .btn-submit:hover::before {
+            border-color: rgba(0,242,255,0.35);
+            box-shadow: 0 0 24px rgba(0,242,255,0.15);
+        }
+        .btn-submit:active { transform: translateY(0); }
+
+        /* pulse ring on hover */
+        .btn-submit::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 40px;
+            background: rgba(255,255,255,0.15);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .btn-submit:hover::after { opacity: 1; animation: btnPulse 1s ease-out infinite; }
+        @keyframes btnPulse {
+            0%   { transform: scale(1);   opacity: 0.15; }
+            100% { transform: scale(1.06); opacity: 0; }
+        }
+
+        /* -------------------- TERMS LINE -------------------- */
+        .terms-note {
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.72rem;
+            color: var(--text-faint);
+            font-family: var(--font-mono);
+            line-height: 1.6;
+        }
+        .terms-note a { color: var(--text-muted); }
+        .terms-note a:hover { color: var(--cyan); }
+
+        /* -------------------- SUCCESS STATE -------------------- */
+        .success-state {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 1rem 0;
+            animation: cardFadeIn 0.7s ease both;
+        }
+        .success-state.visible { display: flex; }
+        .success-icon {
+            width: 72px; height: 72px;
+            border-radius: 50%;
+            background: rgba(0,242,255,0.08);
+            border: 2px solid var(--border-glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            box-shadow: 0 0 30px rgba(0,242,255,0.2);
+        }
+        .success-icon svg { width: 32px; height: 32px; color: var(--cyan); }
+        .success-icon::after {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            border: 1px solid rgba(0,242,255,0.15);
+            animation: successRing 2s ease-out infinite;
+        }
+        @keyframes successRing {
+            0%   { transform: scale(1);   opacity: 0.8; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+        .success-eyebrow {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            color: var(--cyan);
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+        .success-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            margin-bottom: 0.75rem;
+        }
+        .success-body {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-weight: 300;
+            max-width: 340px;
+        }
+        .success-id {
+            margin-top: 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--text-faint);
+            background: rgba(0,242,255,0.04);
+            border: 1px solid rgba(0,242,255,0.1);
+            border-radius: var(--radius-sm);
+            padding: 0.5rem 1rem;
+        }
+        .success-id span { color: var(--cyan); }
+        .btn-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 2rem;
+            padding: 0.75rem 2rem;
+            border-radius: 40px;
+            border: 1px solid var(--border-glow);
+            background: var(--cyan-dim);
+            color: var(--cyan);
+            font-family: var(--font-main);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: box-shadow var(--transition), background var(--transition);
+        }
+        .btn-home:hover {
+            background: rgba(0,242,255,0.12);
+            box-shadow: var(--glow-cyan);
+        }
+        /* Dashboard CTA button (filled) */
+        .btn-dashboard {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 0.75rem;
+            padding: 0.75rem 2rem;
+            border-radius: 40px;
+            border: none;
+            background: var(--cyan);
+            color: #0a0a0b;
+            font-family: var(--font-main);
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            width: 100%;
+            justify-content: center;
+            transition: box-shadow var(--transition), transform 0.2s;
+        }
+        .btn-dashboard:hover {
+            box-shadow: var(--glow-cyan);
+            transform: translateY(-1px);
+        }
+        /* Page-exit fade/slide */
+        body.page-exit {
+            animation: pageExit 0.45s ease forwards;
+        }
+        @keyframes pageExit {
+            from { opacity: 1; transform: translateY(0); }
+            to   { opacity: 0; transform: translateY(-18px); }
+        }
+
+        /* -------------------- DIVIDER -------------------- */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            color: var(--text-faint);
+            font-size: 0.72rem;
+            font-family: var(--font-mono);
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* -------------------- SECURITY BADGES -------------------- */
+        .security-badges {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fieldFadeIn 0.5s ease 0.65s forwards;
+        }
+        .sec-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--text-faint);
+            letter-spacing: 0.06em;
+        }
+        .sec-badge svg { width: 10px; height: 10px; color: #7cfc00; }
+
+        /* -------------------- RESPONSIVE -------------------- */
+        @media (max-width: 600px) {
+            .top-bar { padding: 1rem 1.2rem; }
+            .top-bar__brand { display: none; }
+            .portal-card { padding: 2rem 1.5rem; }
+            .card__title { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- === BACKGROUND: Pulsing Heart Canvas === -->
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- === TOP NAV BAR === -->
+    <div class="top-bar">
+        <a href="index.html" class="back-btn" aria-label="Back to Home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 5l-7 7 7 7"/>
+            </svg>
+            Back to Home
+        </a>
+        <div class="top-bar__brand">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/>
+            </svg>
+            CardiacAI
+            <span class="brand-tag">Federal</span>
+        </div>
+    </div>
+
+    <!-- === MAIN PAGE CONTENT === -->
+    <main class="page-body">
+        <div class="portal-card" role="main">
+
+            <!-- Mini heart brand icon -->
+            <div class="mini-heart-wrap" aria-hidden="true">
+                <div class="mini-heart">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Card header -->
+            <span class="card__eyebrow">Federated Network Access</span>
+            <h1 class="card__title">Request Access</h1>
+            <p class="card__subtitle">Apply to contribute your institution's cardiac data node to the global federated network. All data stays local.</p>
+
+            <!-- === APPLICATION FORM === -->
+            <form id="accessForm" novalidate>
+
+                <!-- Full Name -->
+                <div class="form-group">
+                    <label for="fullName">Full Name <span class="required">*</span></label>
+                    <input type="text" id="fullName" name="fullName" placeholder="Dr. Jane Cardio" autocomplete="name">
+                    <div class="field-error" id="err-name">Please enter your full name.</div>
+                </div>
+
+                <!-- Institutional Email -->
+                <div class="form-group">
+                    <label for="email">Institutional Email <span class="required">*</span></label>
+                    <input type="email" id="email" name="email" placeholder="j.cardio@hospital.edu" autocomplete="email">
+                    <div class="field-error" id="err-email">Must be an institutional address (.edu, .gov, .nhs, .org, or hospital domain).</div>
+                </div>
+
+                <!-- Institution Type -->
+                <div class="form-group">
+                    <label for="institutionType">Institution Type <span class="required">*</span></label>
+                    <select id="institutionType" name="institutionType">
+                        <option value="" disabled selected>Select your institution...</option>
+                        <option value="hospital">Hospital / Medical Center</option>
+                        <option value="research">Research Lab</option>
+                        <option value="university">University</option>
+                        <option value="wearable">Wearable Tech Partner</option>
+                        <option value="pharma">Pharmaceutical / Biotech</option>
+                    </select>
+                    <div class="field-error" id="err-type">Please select an institution type.</div>
+                </div>
+
+                <!-- Research Focus -->
+                <div class="form-group">
+                    <label for="researchFocus">Research Focus</label>
+                    <input type="text" id="researchFocus" name="researchFocus" placeholder="e.g., Heart Failure Prediction, Arrhythmia Detection">
+                </div>
+
+                <!-- Data Contribution Toggle -->
+                <div class="form-group">
+                    <label>Data Contribution</label>
+                    <div class="toggle-row">
+                        <div>
+                            <div class="toggle-label-text">Contributing a local data node?</div>
+                            <div class="toggle-label-sub">Federated · Encrypted · Never transmits raw data</div>
+                        </div>
+                        <label class="toggle-switch" for="dataNode" aria-label="Toggle data node contribution">
+                            <input type="checkbox" id="dataNode" name="dataNode">
+                            <span class="toggle-track"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div class="divider">Secure Submission</div>
+
+                <!-- Submit Button -->
+                <div class="btn-submit-wrap">
+                    <button type="submit" class="btn-submit" id="submitBtn">
+                        Submit Application
+                    </button>
+                </div>
+
+                <!-- Terms note -->
+                <p class="terms-note">
+                    By submitting you agree to our <a href="#">IRB Compliance Terms</a> and <a href="#">HIPAA Privacy Notice</a>.
+                    Credentials are reviewed within 48 hours.
+                </p>
+
+            </form>
+
+            <!-- === SUCCESS STATE (hidden initially) === -->
+            <div class="success-state" id="successState" aria-live="polite">
+                <div class="success-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 6L9 17l-5-5"/>
+                    </svg>
+                </div>
+                <div class="success-eyebrow">Identity Verified</div>
+                <h2 class="success-title">Application Received</h2>
+                <p class="success-body">
+                    Identity Verified. Our team will review your credentials for the Federated Network.
+                    You will receive a confirmation at your institutional email within 48 hours.
+                </p>
+                <div class="success-id">
+                    Application Ref: <span id="refCode">FCA-XXXX-XXXX</span>
+                </div>
+                <a href="index.html" class="btn-home" id="homeBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                        <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                    Return to Home
+                </a>
+                <!-- Dashboard CTA -->
+                <a href="dashboard.html" class="btn-dashboard" id="dashboardBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+                        <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>
+                    </svg>
+                    Open Dashboard · Project Athena
+                </a>
+            </div>
+
+            <!-- Security badges -->
+            <div class="security-badges" aria-label="Security certifications">
+                <span class="sec-badge">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5L12 1z"/></svg>
+                    HIPAA Compliant
+                </span>
+                <span class="sec-badge">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5L12 1z"/></svg>
+                    AES-256 Encrypted
+                </span>
+                <span class="sec-badge">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5L12 1z"/></svg>
+                    IRB Approved
+                </span>
+            </div>
+
+        </div><!-- /portal-card -->
+    </main>
+
+    <!-- === SCRIPTS === -->
+    <script>
+    /* ============================================================
+       BACKGROUND CANVAS: Animated Pulsing Heart / Particle Field
+    ============================================================ */
+    (function() {
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        let W, H, particles = [], animId;
+
+        function resize() {
+            W = canvas.width  = window.innerWidth;
+            H = canvas.height = window.innerHeight;
+        }
+
+        // Parametric heart outline
+        function heartX(t, cx, scale) {
+            return cx + scale * 16 * Math.pow(Math.sin(t), 3);
+        }
+        function heartY(t, cy, scale) {
+            return cy - scale * (13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+        }
+
+        // Particles that flow along the heart outline
+        function initParticles() {
+            particles = [];
+            const n = 120;
+            for (let i = 0; i < n; i++) {
+                particles.push({
+                    t:      Math.random() * Math.PI * 2,
+                    speed:  0.005 + Math.random() * 0.008,
+                    alpha:  0.1 + Math.random() * 0.35,
+                    size:   0.8 + Math.random() * 2.5,
+                    offset: (Math.random() - 0.5) * 14, // radial offset
+                    trail:  []
+                });
+            }
+        }
+
+        let time = 0;
+        function draw() {
+            ctx.clearRect(0, 0, W, H);
+            time += 0.008;
+            
+            const cx = W * 0.5;
+            const cy = H * 0.5;
+            // Breathing scale
+            const scale = Math.min(W, H) * 0.022 + Math.sin(time) * Math.min(W, H) * 0.001;
+
+            // Draw faint heart outline
+            ctx.beginPath();
+            for (let i = 0; i <= 200; i++) {
+                const t = (i / 200) * Math.PI * 2;
+                const x = heartX(t, cx, scale);
+                const y = heartY(t, cy, scale);
+                i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+            }
+            ctx.closePath();
+            ctx.strokeStyle = `rgba(0, 242, 255, ${0.06 + Math.sin(time * 0.8) * 0.02})`;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            // Fill faint heart glow
+            const grd = ctx.createRadialGradient(cx, cy - scale * 2, 0, cx, cy, scale * 20);
+            grd.addColorStop(0,   `rgba(0,242,255, ${0.025 + Math.sin(time) * 0.01})`);
+            grd.addColorStop(0.5, 'transparent');
+            ctx.fillStyle = grd;
+            ctx.fill();
+
+            // Animate particles along the heart path
+            particles.forEach(p => {
+                p.t = (p.t + p.speed) % (Math.PI * 2);
+                const bx = heartX(p.t, cx, scale);
+                const by = heartY(p.t, cy, scale);
+
+                // Offset perpendicular slightly
+                const dx = heartX(p.t + 0.01, cx, scale) - bx;
+                const dy = heartY(p.t + 0.01, cy, scale) - by;
+                const len = Math.sqrt(dx*dx + dy*dy) || 1;
+                const nx = -dy / len;
+                const ny =  dx / len;
+                const x = bx + nx * p.offset;
+                const y = by + ny * p.offset;
+
+                // Trail
+                p.trail.push({x, y});
+                if (p.trail.length > 14) p.trail.shift();
+
+                // Draw trail
+                if (p.trail.length > 1) {
+                    ctx.beginPath();
+                    for (let i = 0; i < p.trail.length; i++) {
+                        const frac = i / p.trail.length;
+                        i === 0 ? ctx.moveTo(p.trail[i].x, p.trail[i].y)
+                                : ctx.lineTo(p.trail[i].x, p.trail[i].y);
+                    }
+                    ctx.strokeStyle = `rgba(0,242,255, ${p.alpha * 0.5})`;
+                    ctx.lineWidth = p.size * 0.5;
+                    ctx.stroke();
+                }
+
+                // Draw dot
+                ctx.beginPath();
+                ctx.arc(x, y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(0,242,255, ${p.alpha})`;
+                ctx.fill();
+            });
+
+            animId = requestAnimationFrame(draw);
+        }
+
+        resize();
+        initParticles();
+        draw();
+        window.addEventListener('resize', () => { resize(); initParticles(); });
+    })();
+
+
+    /* ============================================================
+       FORM VALIDATION & SUBMISSION
+    ============================================================ */
+    const form       = document.getElementById('accessForm');
+    const successDiv = document.getElementById('successState');
+    const submitBtn  = document.getElementById('submitBtn');
+
+    const ALLOWED_DOMAINS = ['.edu', '.gov', '.nhs', '.org', '.ac.', '.research', '.hospital'];
+
+    function isInstitutionalEmail(email) {
+        const lc = email.toLowerCase();
+        return ALLOWED_DOMAINS.some(d => lc.includes(d));
+    }
+
+    function showError(id, show) {
+        const el = document.getElementById(id);
+        if (el) el.classList.toggle('visible', show);
+    }
+
+    function setInvalid(inputId, invalid) {
+        const el = document.getElementById(inputId);
+        if (el) el.classList.toggle('invalid', invalid);
+    }
+
+    function generateRef() {
+        const seg = () => Math.random().toString(36).toUpperCase().slice(2, 6);
+        return `FCA-${seg()}-${seg()}`;
+    }
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        let valid = true;
+
+        const name  = document.getElementById('fullName').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const type  = document.getElementById('institutionType').value;
+
+        // Validate Name
+        if (!name) {
+            showError('err-name', true);
+            setInvalid('fullName', true);
+            valid = false;
+        } else {
+            showError('err-name', false);
+            setInvalid('fullName', false);
+        }
+
+        // Validate Email
+        if (!email || !isInstitutionalEmail(email)) {
+            showError('err-email', true);
+            setInvalid('email', true);
+            valid = false;
+        } else {
+            showError('err-email', false);
+            setInvalid('email', false);
+        }
+
+        // Validate Type
+        if (!type) {
+            showError('err-type', true);
+            setInvalid('institutionType', true);
+            valid = false;
+        } else {
+            showError('err-type', false);
+            setInvalid('institutionType', false);
+        }
+
+        if (!valid) return;
+
+        // Simulate async submission
+        submitBtn.textContent = 'Verifying credentials…';
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = '0.7';
+
+        setTimeout(() => {
+            // Show success, hide form
+            form.style.transition = 'opacity 0.4s';
+            form.style.opacity = '0';
+            setTimeout(() => {
+                form.style.display = 'none';
+                document.querySelector('.mini-heart-wrap').style.display = 'none';
+                document.querySelector('.card__eyebrow').style.display   = 'none';
+                document.querySelector('.card__title').style.display     = 'none';
+                document.querySelector('.card__subtitle').style.display  = 'none';
+                document.querySelector('.security-badges').style.display = 'none';
+
+                document.getElementById('refCode').textContent = generateRef();
+                successDiv.classList.add('visible');
+            }, 400);
+        }, 1800);
+    });
+
+    // Real-time inline validation on blur
+    document.getElementById('email').addEventListener('blur', function() {
+        if (this.value && !isInstitutionalEmail(this.value)) {
+            showError('err-email', true);
+            setInvalid('email', true);
+        } else if (this.value) {
+            showError('err-email', false);
+            setInvalid('email', false);
+        }
+    });
+    </script>
+
+</body>
+</html>

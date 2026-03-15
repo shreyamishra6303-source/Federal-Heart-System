@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Athena — CardiacAI Federal Dashboard</title>
+    <meta name="description" content="Project Athena federated learning dashboard for cardiac AI research.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+/* ============================================================
+   PROJECT ATHENA — FEDERATED DASHBOARD
+   CardiacAI Federal · Dark Clinical · Cyan #00f2ff
+============================================================ */
+:root {
+    --bg:           #070a0f;
+    --bg-2:         #0c1018;
+    --bg-3:         #111827;
+    --bg-card:      rgba(255,255,255,0.035);
+    --border:       rgba(255,255,255,0.06);
+    --border-glow:  rgba(0,242,255,0.22);
+    --cyan:         #00f2ff;
+    --cyan-dim:     rgba(0,242,255,0.08);
+    --cyan-mid:     rgba(0,242,255,0.35);
+    --green:        #00ff88;
+    --red:          #ff4466;
+    --amber:        #f59e0b;
+    --text:         #dde4ef;
+    --text-muted:   #5a6a82;
+    --text-faint:   #232c3a;
+    --sidebar-w:    220px;
+    --font-main:    'Inter', system-ui, sans-serif;
+    --font-mono:    'JetBrains Mono', monospace;
+    --radius-sm:    8px;
+    --radius-md:    14px;
+    --radius-lg:    20px;
+    --tr:           0.35s cubic-bezier(0.4,0,0.2,1);
+    --glow-cyan:    0 0 20px rgba(0,242,255,0.45), 0 0 60px rgba(0,242,255,0.15);
+    --glow-green:   0 0 12px rgba(0,255,136,0.4);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; font-family: var(--font-main); background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+
+/* ===================== PAGE FADE-IN ===================== */
+body { opacity: 0; animation: pageEnter 0.7s 0.05s ease forwards; }
+@keyframes pageEnter {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===================== LAYOUT ===================== */
+.app { display: flex; height: 100vh; width: 100vw; overflow: hidden; }
+
+/* ===================== SIDEBAR ===================== */
+.sidebar {
+    width: var(--sidebar-w);
+    flex-shrink: 0;
+    background: var(--bg-2);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    position: relative;
+    z-index: 10;
+}
+
+.sidebar__brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 1.4rem 1.3rem;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+}
+.sidebar__brand-icon {
+    width: 24px; height: 24px;
+    color: var(--cyan);
+    filter: drop-shadow(0 0 6px var(--cyan));
+    flex-shrink: 0;
+}
+.sidebar__brand-name {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text);
+    letter-spacing: 0.08em;
+}
+.sidebar__brand-name span { color: var(--cyan); }
+
+.sidebar__nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 1rem 0.7rem;
+    overflow-y: auto;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.62rem 0.8rem;
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    font-weight: 400;
+    cursor: pointer;
+    transition: background var(--tr), color var(--tr);
+    user-select: none;
+    text-decoration: none;
+}
+.nav-item svg { width: 16px; height: 16px; flex-shrink: 0; }
+.nav-item:hover { background: rgba(255,255,255,0.04); color: var(--text); }
+.nav-item.active {
+    background: var(--cyan-dim);
+    color: var(--cyan);
+    border: 1px solid rgba(0,242,255,0.12);
+}
+.nav-item.active svg { filter: drop-shadow(0 0 4px var(--cyan)); }
+
+/* Sidebar section label */
+.nav-section-label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--text-faint);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.8rem 0.8rem 0.3rem;
+}
+
+.sidebar__footer {
+    padding: 1rem 0.7rem 1.2rem;
+    border-top: 1px solid var(--border);
+}
+.btn-federated {
+    width: 100%;
+    padding: 0.65rem 0;
+    border-radius: 40px;
+    border: 1px solid var(--border-glow);
+    background: var(--cyan-dim);
+    color: var(--cyan);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: box-shadow var(--tr), background var(--tr);
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    position: relative; overflow: hidden;
+}
+.btn-federated::before {
+    content: '';
+    position: absolute;
+    inset: 0; border-radius: 40px;
+    background: rgba(0,242,255,0);
+    transition: background 0.3s;
+}
+.btn-federated:hover {
+    box-shadow: var(--glow-cyan);
+    background: rgba(0,242,255,0.13);
+}
+.btn-federated-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: var(--glow-cyan);
+    animation: blink 1.3s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.35} }
+
+/* ===================== MAIN CONTENT ===================== */
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Top bar */
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 1.6rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(7,10,15,0.8);
+    backdrop-filter: blur(10px);
+    flex-shrink: 0;
+}
+.topbar__left { display: flex; flex-direction: column; }
+.topbar__title { font-size: 1rem; font-weight: 600; letter-spacing: -0.02em; }
+.topbar__sub { font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono); margin-top: 1px; }
+
+.topbar__right { display: flex; align-items: center; gap: 1rem; }
+.topbar__badge {
+    display: flex; align-items: center; gap: 6px;
+    font-family: var(--font-mono); font-size: 0.68rem;
+    color: var(--green); background: rgba(0,255,136,0.06);
+    border: 1px solid rgba(0,255,136,0.18); padding: 4px 10px; border-radius: 20px;
+}
+.topbar__badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: var(--glow-green); animation: blink 1.2s ease-in-out infinite; }
+.round-badge { font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-muted); background: var(--bg-3); border: 1px solid var(--border); padding: 4px 10px; border-radius: 20px; }
+.topbar__avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--bg-3); border: 1px solid var(--border-glow);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; color: var(--cyan); font-weight: 600; cursor: pointer;
+    transition: box-shadow 0.2s;
+}
+.topbar__avatar:hover { box-shadow: var(--glow-cyan); }
+
+/* Content grid */
+.content {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    grid-template-rows: 1fr;
+    gap: 0;
+    overflow: hidden;
+}
+
+/* ===================== MAP PANEL (left) ===================== */
+.map-panel {
+    position: relative;
+    overflow: hidden;
+    border-right: 1px solid var(--border);
+    background: var(--bg);
+}
+.map-panel__header {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 1.6rem 0.8rem;
+    background: linear-gradient(to bottom, rgba(7,10,15,0.9) 0%, transparent 100%);
+}
+.map-panel__title { font-size: 0.82rem; font-weight: 500; color: var(--text-muted); font-family: var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; }
+.map-panel__stats { display: flex; gap: 1rem; }
+.map-stat { font-family: var(--font-mono); font-size: 0.68rem; }
+.map-stat__val { color: var(--cyan); }
+.map-stat__label { color: var(--text-muted); margin-left: 4px; }
+
+/* SVG map base */
+#worldSVG {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    display: block;
+}
+/* Arc canvas overlay */
+#arcsCanvas {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 3;
+}
+
+/* Node labels */
+.map-node-labels { position: absolute; inset: 0; pointer-events: none; z-index: 4; }
+.node-label {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+.node-label__ring {
+    width: 14px; height: 14px; border-radius: 50%;
+    background: radial-gradient(circle, var(--cyan) 0%, var(--cyan-mid) 40%, transparent 70%);
+    box-shadow: 0 0 12px var(--cyan), 0 0 30px rgba(0,242,255,0.25);
+    position: relative;
+}
+.node-label__ring::after {
+    content: '';
+    position: absolute;
+    inset: -5px; border-radius: 50%;
+    border: 1px solid rgba(0,242,255,0.4);
+    animation: nodeRing 2s ease-out infinite;
+}
+@keyframes nodeRing { 0%{transform:scale(1);opacity:0.8} 100%{transform:scale(2.5);opacity:0} }
+
+#nodeNYC  .node-label__ring { animation-delay: 0s; }
+#nodeLON  .node-label__ring::after { animation-delay: 0.5s; }
+#nodeTKY  .node-label__ring::after { animation-delay: 1s; }
+
+.node-label__text {
+    font-family: var(--font-mono); font-size: 0.62rem;
+    color: var(--cyan); letter-spacing: 0.08em;
+    text-shadow: 0 0 8px rgba(0,242,255,0.6);
+    white-space: nowrap;
+}
+.node-label__sub {
+    font-family: var(--font-mono); font-size: 0.55rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+.aggregator-node {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    z-index: 6;
+}
+.aggregator-node__core {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: radial-gradient(circle, #fff 0%, var(--cyan) 50%, transparent 75%);
+    box-shadow: 0 0 20px var(--cyan), 0 0 60px rgba(0,242,255,0.3);
+    animation: aggPulse 2.2s ease-in-out infinite;
+}
+@keyframes aggPulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.25);opacity:0.8} }
+.aggregator-node__ring1, .aggregator-node__ring2 {
+    width: 22px; height: 22px; border-radius: 50%;
+    border: 1px solid rgba(0,242,255,0.5);
+    position: absolute;
+    animation: aggRing 2.5s ease-out infinite;
+}
+.aggregator-node__ring2 { animation-delay: 0.8s; }
+@keyframes aggRing { 0%{transform:scale(1);opacity:0.7} 100%{transform:scale(4);opacity:0} }
+.aggregator-node__label {
+    font-family: var(--font-mono); font-size: 0.62rem;
+    color: var(--text); letter-spacing: 0.06em;
+    margin-top: 16px;
+    text-shadow: 0 0 10px rgba(0,242,255,0.4);
+}
+
+/* ===================== RIGHT PANEL ===================== */
+.right-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    overflow-y: auto;
+    background: var(--bg-2);
+}
+.right-panel::-webkit-scrollbar { width: 3px; }
+.right-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* Card base */
+.glass-card {
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 1.2rem 1.3rem;
+    flex-shrink: 0;
+}
+.glass-card__label {
+    font-family: var(--font-mono); font-size: 0.62rem;
+    color: var(--text-muted); letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 0.75rem;
+}
+
+/* ---- Heart card ---- */
+.heart-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 1.4rem;
+    border-bottom: 1px solid var(--border);
+}
+#heartCanvas3D {
+    width: 100%; height: 180px;
+    display: block;
+}
+.heart-card__title {
+    font-size: 0.82rem; color: var(--text-muted);
+    margin-top: 0.4rem; font-family: var(--font-mono);
+    letter-spacing: 0.06em; text-align: center;
+}
+.heart-card__metrics {
+    display: flex; gap: 1.5rem;
+    margin-top: 0.8rem;
+}
+.heart-metric { text-align: center; }
+.heart-metric__val { font-size: 1.1rem; font-weight: 600; color: var(--cyan); display: block; }
+.heart-metric__label { font-size: 0.62rem; color: var(--text-muted); font-family: var(--font-mono); }
+
+/* ---- Training card ---- */
+.training-card { padding: 1.2rem 1.3rem; }
+.training-card__title { font-size: 0.7rem; color: var(--text-muted); font-family: var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.4rem; }
+.training-card__name { font-size: 1.1rem; font-weight: 700; color: var(--text); letter-spacing: -0.02em; margin-bottom: 0.2rem; }
+.training-card__sub { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 1rem; }
+
+.chart-wrap { position: relative; height: 120px; margin-bottom: 1rem; }
+#accuracyChart { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+.status-row { display: flex; align-items: center; gap: 8px; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: var(--glow-green); animation: blink 1.2s ease-in-out infinite; }
+.status-text { font-family: var(--font-mono); font-size: 0.72rem; color: var(--green); }
+
+/* ---- Node list card ---- */
+.node-list-card { padding: 1.2rem 1.3rem; }
+.node-list-card__label { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-muted); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.9rem; }
+.node-entry { display: flex; align-items: center; justify-content: space-between; padding: 0.55rem 0; border-bottom: 1px solid var(--border); }
+.node-entry:last-child { border: none; }
+.node-entry__left { display: flex; align-items: center; gap: 8px; }
+.node-entry__indicator { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: var(--glow-green); animation: blink 1.2s ease-in-out infinite; flex-shrink: 0; }
+.node-entry__name { font-size: 0.8rem; font-weight: 500; }
+.node-entry__loc { font-size: 0.68rem; color: var(--text-muted); font-family: var(--font-mono); }
+.node-entry__badge { font-family: var(--font-mono); font-size: 0.62rem; padding: 2px 7px; border-radius: 20px; }
+.badge--cyan { color: var(--cyan); background: var(--cyan-dim); border: 1px solid rgba(0,242,255,0.15); }
+.badge--amber { color: var(--amber); background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2); }
+
+/* ---- Privacy audit card ---- */
+.audit-card { padding: 1.2rem 1.3rem; }
+.audit-card__label { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-muted); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.9rem; }
+.epsilon-meter { margin-bottom: 0.8rem; }
+.epsilon-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem; }
+.epsilon-key { font-size: 0.72rem; color: var(--text-muted); }
+.epsilon-val { font-family: var(--font-mono); font-size: 0.72rem; color: var(--cyan); }
+.epsilon-track { height: 3px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.epsilon-fill { height: 100%; border-radius: 3px; background: var(--cyan); transition: width 1.5s cubic-bezier(0.4,0,0.2,1); width: 0; }
+
+/* Responsive */
+@media (max-width: 900px) {
+    .sidebar { width: 60px; }
+    .sidebar__brand-name, .nav-item span, .nav-section-label, .btn-federated span { display: none; }
+    .sidebar__brand { justify-content: center; }
+    .nav-item { justify-content: center; padding: 0.7rem; }
+    .btn-federated { padding: 0.65rem 0; font-size: 0; gap: 0; }
+    .btn-federated-dot { margin: 0; }
+}
+@media (max-width: 700px) {
+    .content { grid-template-columns: 1fr; }
+    .right-panel { display: none; }
+}
+    </style>
+</head>
+<body>
+<div class="app">
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar" role="navigation" aria-label="Main navigation">
+
+        <a href="index.html" class="sidebar__brand" title="CardiacAI Federal">
+            <svg class="sidebar__brand-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/>
+            </svg>
+            <span class="sidebar__brand-name">CARDIAC<span>.AI</span></span>
+        </a>
+
+        <nav class="sidebar__nav">
+            <span class="nav-section-label">Main</span>
+
+            <a href="#" class="nav-item active" title="Dashboard">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+                    <rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>
+                </svg>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="#" class="nav-item" title="Data Nodes">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3"/>
+                </svg>
+                <span>Data Nodes</span>
+            </a>
+
+            <a href="#" class="nav-item" title="Model Training">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                </svg>
+                <span>Model Training</span>
+            </a>
+
+            <span class="nav-section-label">Compliance</span>
+
+            <a href="#" class="nav-item" title="Privacy Audit">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+                <span>Privacy Audit</span>
+            </a>
+
+            <a href="#" class="nav-item" title="Settings">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+                </svg>
+                <span>Settings</span>
+            </a>
+        </nav>
+
+        <div class="sidebar__footer">
+            <button class="btn-federated" id="fedRoundBtn" title="Start New Federated Round">
+                <span class="btn-federated-dot"></span>
+                <span>Start New Federated Round</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- ===== MAIN ===== -->
+    <div class="main">
+
+        <!-- Top bar -->
+        <div class="topbar">
+            <div class="topbar__left">
+                <div class="topbar__title">Project Athena <span style="color:var(--text-muted);font-weight:300">· Federated Dashboard</span></div>
+                <div class="topbar__sub">Round 47 / 100 · Heart Failure Prediction · 3 Global Nodes</div>
+            </div>
+            <div class="topbar__right">
+                <span class="round-badge">Round 47/100</span>
+                <div class="topbar__badge">
+                    <span class="topbar__badge-dot"></span>
+                    FedProx Active
+                </div>
+                <div class="topbar__avatar" title="Your account">JC</div>
+            </div>
+        </div>
+
+        <!-- Content grid -->
+        <div class="content">
+
+            <!-- MAP PANEL -->
+            <div class="map-panel">
+                <div class="map-panel__header">
+                    <span class="map-panel__title">Global Node Network</span>
+                    <div class="map-panel__stats">
+                        <span class="map-stat"><span class="map-stat__val">3</span><span class="map-stat__label">nodes</span></span>
+                        <span class="map-stat"><span class="map-stat__val" id="dataVol">34.2</span><span class="map-stat__label">KB/s sync</span></span>
+                        <span class="map-stat"><span class="map-stat__val">ε=0.1</span><span class="map-stat__label">privacy</span></span>
+                    </div>
+                </div>
+
+                <!-- SVG World Map -->
+                <svg id="worldSVG" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <defs>
+                        <filter id="landGlow">
+                            <feGaussianBlur stdDeviation="1.5" result="blur"/>
+                            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                        </filter>
+                    </defs>
+                    <!-- Ocean background -->
+                    <rect width="1000" height="500" fill="#070a0f"/>
+                    <!-- Latitude grid lines -->
+                    <g stroke="rgba(0,242,255,0.04)" stroke-width="0.5" fill="none">
+                        <line x1="0" y1="83" x2="1000" y2="83"/><!-- 60N -->
+                        <line x1="0" y1="167" x2="1000" y2="167"/><!-- 30N -->
+                        <line x1="0" y1="250" x2="1000" y2="250"/><!-- Equator -->
+                        <line x1="0" y1="333" x2="1000" y2="333"/><!-- 30S -->
+                        <line x1="0" y1="417" x2="1000" y2="417"/><!-- 60S -->
+                    </g>
+                    <!-- Longitude grid lines -->
+                    <g stroke="rgba(0,242,255,0.03)" stroke-width="0.5" fill="none">
+                        <line x1="83" y1="0" x2="83" y2="500"/><!-- 120W -->
+                        <line x1="167" y1="0" x2="167" y2="500"/><!-- 90W -->
+                        <line x1="250" y1="0" x2="250" y2="500"/><!-- 60W -->
+                        <line x1="333" y1="0" x2="333" y2="500"/><!-- 30W -->
+                        <line x1="500" y1="0" x2="500" y2="500"/><!-- 0 (Prime Meridian) -->
+                        <line x1="667" y1="0" x2="667" y2="500"/><!-- 60E -->
+                        <line x1="750" y1="0" x2="750" y2="500"/><!-- 90E -->
+                        <line x1="833" y1="0" x2="833" y2="500"/><!-- 120E -->
+                        <line x1="917" y1="0" x2="917" y2="500"/><!-- 150E -->
+                    </g>
+                    <!-- ===== CONTINENTS — Natural Earth bezier, equirectangular 0 0 1000 500 ===== -->
+                    <g fill="#1a1e2a" stroke="rgba(0,242,255,0.28)" stroke-width="0.7" stroke-linejoin="round">
+
+                    <!-- ALASKA -->
+                    <path d="M88,70 C95,62 106,54 120,48 C132,43 144,42 153,47 C161,52 164,62 160,71
+                             C156,79 145,84 132,84 C118,84 102,80 88,70 Z
+                             M62,77 C68,70 79,68 85,73 C89,78 84,84 76,84 C70,84 63,81 62,77 Z"/>
+
+                    <!-- NORTH AMERICA — main body with Gulf of Mexico inset -->
+                    <path d="M170,40 C182,28 198,20 216,16 C232,12 250,13 266,18
+                             C280,23 290,32 294,44 C298,56 292,70 280,80
+                             C270,88 258,94 246,100 C236,106 228,114 222,124
+                             C216,134 212,146 206,158 C202,168 196,178 189,185
+                             C183,190 177,190 172,183 C167,176 165,163 166,149
+                             C167,135 170,120 171,106 C172,92 170,78 167,65 C164,55 166,46 170,40 Z"/>
+
+                    <!-- Florida -->
+                    <path d="M242,158 C250,156 257,161 258,170 C259,179 254,190 246,194
+                             C241,197 235,193 234,186 C232,177 235,165 242,158 Z"/>
+
+                    <!-- Baja/Mexico west -->
+                    <path d="M180,160 C185,156 189,160 186,168 C183,176 177,180 173,176 C171,172 174,164 180,160 Z"/>
+
+                    <!-- GREENLAND -->
+                    <path d="M298,8 C313,4 328,4 340,11 C351,18 356,30 351,41
+                             C346,52 332,58 317,59 C302,60 288,52 283,41
+                             C279,32 282,18 298,8 Z"/>
+
+                    <!-- CENTRAL AMERICA -->
+                    <path d="M193,185 C202,180 211,179 217,184 C222,189 221,200 215,207
+                             C209,213 199,214 193,208 C187,202 186,191 193,185 Z"/>
+
+                    <!-- SOUTH AMERICA -->
+                    <path d="M218,197 C231,190 246,188 259,191 C270,194 279,202 281,215
+                             C284,228 280,244 274,260 C268,275 259,290 248,303
+                             C237,316 224,326 213,329 C206,331 202,326 203,317
+                             C204,306 208,293 212,279 C215,265 216,251 215,237
+                             C214,223 215,209 218,197 Z"/>
+
+                    <!-- EUROPE — Scandinavia -->
+                    <path d="M489,44 C497,36 508,30 518,29 C526,28 531,33 528,42
+                             C524,51 514,58 504,61 C496,63 489,57 489,44 Z
+                             M516,33 C523,26 533,27 535,35 C537,43 531,51 522,53
+                             C514,55 510,47 516,33 Z
+                             M527,45 C533,39 541,39 543,47 C545,55 539,61 531,62
+                             C524,63 521,55 527,45 Z"/>
+
+                    <!-- EUROPE — Scandinavian/Baltic -->
+                    <path d="M453,60 C464,52 478,47 492,47 C506,47 518,52 524,62
+                             C529,72 524,83 514,88 C504,93 491,93 480,89
+                             C469,85 460,77 455,68 C452,63 452,62 453,60 Z"/>
+
+                    <!-- British Isles -->
+                    <path d="M456,81 C462,74 471,74 475,81 C479,88 474,97 464,99
+                             C456,101 451,94 456,81 Z
+                             M444,89 C450,84 456,87 454,95 C452,101 445,103 440,98
+                             C437,93 439,92 444,89 Z"/>
+
+                    <!-- Iberian Peninsula -->
+                    <path d="M427,118 C438,111 452,110 460,117 C468,124 470,136 464,147
+                             C458,158 444,165 430,163 C418,161 411,151 413,138
+                             C415,126 420,122 427,118 Z"/>
+
+                    <!-- EUROPE main body + Italy + Balkans -->
+                    <path d="M455,96 C468,88 484,86 499,89 C514,92 524,101 527,113
+                             C530,125 525,137 514,144 C502,151 486,153 472,148
+                             C458,143 450,132 449,119 C448,108 450,101 455,96 Z"/>
+
+                    <!-- Italian boot -->
+                    <path d="M486,114 C493,108 502,110 505,120 C508,130 502,143 494,147
+                             C487,151 481,145 482,135 C483,124 484,119 486,114 Z"/>
+
+                    <!-- AFRICA — main body -->
+                    <path d="M432,138 C446,129 462,124 478,122 C494,120 510,124 520,134
+                             C529,144 531,158 528,173 C524,188 516,204 507,220
+                             C498,236 491,254 490,272 C489,290 492,308 490,324
+                             C487,339 480,351 470,358 C459,364 447,362 437,354
+                             C427,346 420,332 417,316 C414,300 416,282 419,264
+                             C422,246 426,228 428,210 C430,192 430,174 430,156
+                             C430,147 430,141 432,138 Z"/>
+
+                    <!-- Horn of Africa -->
+                    <path d="M522,168 C533,162 544,164 548,173 C551,182 544,193 534,196
+                             C525,199 518,191 520,181 C521,174 521,169 522,168 Z"/>
+
+                    <!-- MADAGASCAR -->
+                    <path d="M548,238 C555,228 564,226 569,235 C573,244 568,259 558,265
+                             C550,269 543,262 544,251 C545,244 547,240 548,238 Z"/>
+
+                    <!-- ARABIAN PENINSULA -->
+                    <path d="M530,150 C541,141 556,139 565,147 C574,155 573,169 565,180
+                             C557,191 543,196 533,191 C524,186 522,172 526,160
+                             C528,154 529,151 530,150 Z"/>
+
+                    <!-- ASIA — main Eurasian block -->
+                    <path d="M527,60 C545,51 565,44 586,40 C606,36 626,33 646,32
+                             C664,31 680,34 693,41 C705,48 712,60 712,72
+                             C712,84 706,96 695,104 C683,112 667,117 650,118
+                             C632,119 614,116 597,110 C580,104 564,96 551,86
+                             C538,76 530,68 527,60 Z"/>
+
+                    <!-- Russia/Siberia belt -->
+                    <path d="M742,30 C762,22 784,18 806,16 C825,14 843,16 859,23
+                             C874,30 882,42 878,54 C874,64 860,70 844,72
+                             C826,74 807,68 790,61 C772,53 755,43 742,34 Z"/>
+
+                    <!-- Kamchatka / far east chain -->
+                    <path d="M862,70 C870,62 880,63 883,72 C886,81 879,91 869,92
+                             C860,93 855,84 862,70 Z
+                             M880,57 C888,50 899,51 901,60 C903,69 895,77 885,77
+                             C876,77 873,68 880,57 Z
+                             M897,44 C906,37 917,38 919,48 C921,57 912,65 902,64
+                             C893,63 888,52 897,44 Z
+                             M918,30 C927,23 939,25 940,35 C941,44 932,52 921,50
+                             C912,49 908,38 918,30 Z
+                             M939,18 C948,12 960,14 961,23 C962,32 952,40 942,38
+                             C933,37 930,25 939,18 Z
+                             M962,10 C971,5 982,7 983,17 C984,26 974,33 964,31
+                             C956,29 953,18 962,10 Z
+                             M980,6 C988,2 998,5 999,14 L1000,24 C993,26 982,22 978,14 Z"/>
+
+                    <!-- CHINA body -->
+                    <path d="M706,78 C720,74 734,74 746,79 C757,84 763,93 761,104
+                             C759,115 749,123 736,127 C723,131 708,128 699,120
+                             C690,112 690,100 698,90 C701,84 704,80 706,78 Z"/>
+
+                    <!-- INDIAN SUBCONTINENT -->
+                    <path d="M645,122 C659,115 676,115 685,124 C693,133 694,148 687,162
+                             C680,175 666,185 652,187 C639,189 628,181 625,168
+                             C622,155 627,140 636,131 C640,126 643,123 645,122 Z"/>
+
+                    <!-- SRI LANKA -->
+                    <path d="M660,188 C664,184 669,186 669,193 C669,199 664,203 660,200 C657,198 657,191 660,188 Z"/>
+
+                    <!-- SOUTHEAST ASIA -->
+                    <path d="M706,120 C718,115 730,118 735,128 C739,138 733,150 721,154
+                             C711,158 700,151 700,140 C700,130 703,123 706,120 Z
+                             M724,122 C734,117 745,120 749,130 C752,140 745,152 734,154
+                             C724,156 717,147 724,122 Z"/>
+
+                    <!-- Malay Peninsula + Sumatra -->
+                    <path d="M707,153 C713,150 720,154 720,163 C720,172 715,182 707,185
+                             C700,188 696,181 700,171 C702,162 705,155 707,153 Z
+                             M716,180 C726,172 740,172 746,181 C752,190 746,203 735,206
+                             C725,209 716,200 716,180 Z"/>
+
+                    <!-- Borneo -->
+                    <path d="M746,152 C758,145 771,147 778,158 C785,170 780,186 768,193
+                             C756,200 742,194 738,181 C734,168 738,157 746,152 Z"/>
+
+                    <!-- JAPAN -->
+                    <path d="M842,117 C849,110 858,111 861,120 C864,130 857,140 848,141
+                             C840,142 835,133 842,117 Z
+                             M850,107 C858,99 869,99 874,108 C879,118 874,130 862,133
+                             C851,136 842,127 850,107 Z
+                             M866,96 C875,88 887,88 891,98 C895,108 888,118 877,120
+                             C866,122 860,112 866,96 Z"/>
+
+                    <!-- TAIWAN -->
+                    <path d="M784,140 C789,134 796,136 797,143 C798,150 793,156 787,154
+                             C782,152 780,146 784,140 Z"/>
+
+                    <!-- Korea -->
+                    <path d="M826,108 C833,101 841,103 843,112 C845,121 839,129 830,129
+                             C822,129 819,120 826,108 Z"/>
+
+                    <!-- AUSTRALIA -->
+                    <path d="M754,287 C769,274 787,267 806,265 C824,263 841,268 853,279
+                             C864,290 866,306 861,321 C856,336 844,348 829,355
+                             C813,362 795,364 778,360 C761,356 746,345 737,330
+                             C729,315 730,297 754,287 Z"/>
+
+                    <!-- Cape York bump NE -->
+                    <path d="M858,285 C867,278 877,280 879,290 C881,300 873,310 863,310
+                             C854,310 849,300 858,285 Z"/>
+
+                    <!-- Tasmania -->
+                    <path d="M794,364 C801,357 811,358 813,367 C815,376 808,383 800,380
+                             C792,377 789,370 794,364 Z"/>
+
+                    <!-- NEW ZEALAND -->
+                    <path d="M897,340 C904,332 913,333 916,342 C919,351 912,361 903,362
+                             C895,363 891,354 897,340 Z
+                             M892,364 C898,357 906,359 907,368 C908,377 901,384 894,381
+                             C888,378 887,370 892,364 Z"/>
+
+                    <!-- ICELAND -->
+                    <path d="M413,46 C422,37 436,37 442,47 C448,57 442,69 430,72
+                             C419,74 410,64 413,46 Z"/>
+
+                    <!-- ANTARCTICA band -->
+                    <path d="M0,466 C80,455 165,449 250,447 C335,445 415,448 500,454
+                             C585,460 665,460 750,455 C835,450 915,453 1000,462
+                             L1000,500 L0,500 Z" fill="#141921" stroke="rgba(0,242,255,0.2)"/>
+                    </g>
+                    <!-- Aggregator SVG glow halo at correct Atlantic coordinates ~45W/20N -->
+                    <circle cx="375" cy="194" r="32" fill="rgba(0,242,255,0.04)"/>
+                    <circle cx="375" cy="194" r="16" fill="rgba(0,242,255,0.07)"/>
+
+                </svg>
+                <!-- Arc animation overlay canvas -->
+                <canvas id="arcsCanvas"></canvas>
+
+                <!-- Node overlay labels -->
+                <div class="map-node-labels">
+
+                    <!--
+                        Real lat/lon → equirectangular % conversions:
+                        x% = (lon + 180) / 360 * 100
+                        y% = (90 - lat) / 180 * 100
+                        NYC:    40.71N, 74.01W → x=29.4%, y=27.4%
+                        London: 51.51N,  0.13W → x=49.96%, y=21.4%
+                        Tokyo:  35.68N,139.69E → x=88.8%, y=30.2%
+                        Aggregator placed at Atlantic mid-point: ~45W,20N → x=37.5%, y=38.9%
+                    -->
+                    <!-- NYC node -->
+                    <div class="node-label" id="nodeNYC" style="left:29.4%;top:27.4%">
+                        <div class="node-label__ring"></div>
+                        <span class="node-label__text">NYC</span>
+                        <span class="node-label__sub">Hosp. Network</span>
+                    </div>
+
+                    <!-- London -->
+                    <div class="node-label" id="nodeLON" style="left:49.96%;top:21.4%">
+                        <div class="node-label__ring" style="animation-delay:0.5s"></div>
+                        <span class="node-label__text">LONDON</span>
+                        <span class="node-label__sub">Research Lab</span>
+                    </div>
+
+                    <!-- Tokyo -->
+                    <div class="node-label" id="nodeTKY" style="left:88.8%;top:30.2%">
+                        <div class="node-label__ring" style="animation-delay:1s"></div>
+                        <span class="node-label__text">TOKYO</span>
+                        <span class="node-label__sub">Wearable Tech</span>
+                    </div>
+
+                    <!-- Global Aggregator — Atlantic mid-point -->
+                    <div class="aggregator-node" style="left:37.5%;top:38.9%;position:absolute;transform:translate(-50%,-50%)">
+                        <div style="position:relative;display:flex;align-items:center;justify-content:center;width:22px;height:22px;">
+                            <div class="aggregator-node__ring1"></div>
+                            <div class="aggregator-node__ring2"></div>
+                            <div class="aggregator-node__core"></div>
+                        </div>
+                        <span class="aggregator-node__label">Global Aggregator</span>
+                    </div>
+
+                </div><!-- /map-node-labels -->
+            </div><!-- /map-panel -->
+
+            <!-- RIGHT PANEL -->
+            <div class="right-panel">
+
+                <!-- 3D Heart Canvas -->
+                <div class="glass-card heart-card">
+                    <canvas id="heartCanvas3D"></canvas>
+                    <div class="heart-card__title">Global Model Health</div>
+                    <div class="heart-card__metrics">
+                        <div class="heart-metric">
+                            <span class="heart-metric__val" id="metricAcc">89.2%</span>
+                            <span class="heart-metric__label">Accuracy</span>
+                        </div>
+                        <div class="heart-metric">
+                            <span class="heart-metric__val" id="metricLoss" style="color:var(--red)">0.12</span>
+                            <span class="heart-metric__label">Loss</span>
+                        </div>
+                        <div class="heart-metric">
+                            <span class="heart-metric__val" style="color:var(--green)">72</span>
+                            <span class="heart-metric__label">BPM Sync</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Training card with chart -->
+                <div class="glass-card training-card">
+                    <div class="training-card__title">Active Training</div>
+                    <div class="training-card__name">Project Athena</div>
+                    <div class="training-card__sub">Heart Failure Prediction · Round 47/100</div>
+                    <div class="chart-wrap">
+                        <canvas id="accuracyChart"></canvas>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-dot"></span>
+                        <span class="status-text">FedProx Active</span>
+                        <span style="flex:1"></span>
+                        <span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--text-muted)">ε-DP On</span>
+                    </div>
+                </div>
+
+                <!-- Node list card -->
+                <div class="glass-card node-list-card">
+                    <div class="node-list-card__label">Active Nodes</div>
+                    <div class="node-entry">
+                        <div class="node-entry__left">
+                            <div class="node-entry__indicator"></div>
+                            <div>
+                                <div class="node-entry__name">NYC Node</div>
+                                <div class="node-entry__loc">Mass General Hospital</div>
+                            </div>
+                        </div>
+                        <span class="node-entry__badge badge--cyan">12 KB/s</span>
+                    </div>
+                    <div class="node-entry">
+                        <div class="node-entry__left">
+                            <div class="node-entry__indicator"></div>
+                            <div>
+                                <div class="node-entry__name">London Node</div>
+                                <div class="node-entry__loc">Imperial Research Lab</div>
+                            </div>
+                        </div>
+                        <span class="node-entry__badge badge--cyan">11 KB/s</span>
+                    </div>
+                    <div class="node-entry">
+                        <div class="node-entry__left">
+                            <div class="node-entry__indicator" style="background:var(--amber);box-shadow:0 0 8px var(--amber)"></div>
+                            <div>
+                                <div class="node-entry__name">Tokyo Node</div>
+                                <div class="node-entry__loc">Hitachi Wearables</div>
+                            </div>
+                        </div>
+                        <span class="node-entry__badge badge--amber">11 KB/s</span>
+                    </div>
+                </div>
+
+                <!-- Privacy audit card -->
+                <div class="glass-card audit-card">
+                    <div class="audit-card__label">Privacy Budget</div>
+                    <div class="epsilon-meter">
+                        <div class="epsilon-row">
+                            <span class="epsilon-key">Global ε</span>
+                            <span class="epsilon-val">0.10</span>
+                        </div>
+                        <div class="epsilon-track"><div class="epsilon-fill" id="epsFill" style="--pct:10%;width:10%"></div></div>
+                    </div>
+                    <div class="epsilon-meter">
+                        <div class="epsilon-row">
+                            <span class="epsilon-key">δ (delta)</span>
+                            <span class="epsilon-val">1e-5</span>
+                        </div>
+                        <div class="epsilon-track"><div class="epsilon-fill" style="width:5%;background:var(--green)"></div></div>
+                    </div>
+                    <div class="epsilon-meter">
+                        <div class="epsilon-row">
+                            <span class="epsilon-key">Gradient Compression</span>
+                            <span class="epsilon-val">94.1%</span>
+                        </div>
+                        <div class="epsilon-track"><div class="epsilon-fill" style="width:94%;background:#bf5fff"></div></div>
+                    </div>
+                </div>
+
+            </div><!-- /right-panel -->
+        </div><!-- /content -->
+    </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- ============================= SCRIPTS ============================= -->
+<script>
+/* ===================================================
+   1. ARC ANIMATION CANVAS — overlays the SVG world map
+      Node positions derived from real lat/lon:
+      NYC   40.71N  74.01W → x%=29.4  y%=27.4
+      LON   51.51N   0.13W → x%=49.96 y%=21.4
+      TKY   35.68N 139.69E → x%=88.80 y%=30.2
+      AGG (mid-Atlantic)   → x%=37.5  y%=38.9
+=================================================== */
+(function() {
+    const canvas = document.getElementById('arcsCanvas');
+    const ctx = canvas.getContext('2d');
+    let W, H;
+
+    // Node positions as percentages (matching CSS left/top)
+    const NODES = {
+        nyc: { xp: 0.294, yp: 0.274 },
+        lon: { xp: 0.4996, yp: 0.214 },
+        tky: { xp: 0.888, yp: 0.302 },
+    };
+    const AGG = { xp: 0.375, yp: 0.389 };
+
+    const arcs = [
+        { from: 'nyc', progress: 0, speed: 0.006, delay: 0 },
+        { from: 'lon', progress: 0, speed: 0.005, delay: 60 },
+        { from: 'tky', progress: 0, speed: 0.007, delay: 30 },
+    ];
+    let frame = 0;
+
+    function resize() {
+        const rect = canvas.parentElement.getBoundingClientRect();
+        W = canvas.width  = rect.width;
+        H = canvas.height = rect.height;
+    }
+
+    function bezierPoint(p0, p1, cp, t) {
+        const x = (1-t)*(1-t)*p0.x + 2*(1-t)*t*cp.x + t*t*p1.x;
+        const y = (1-t)*(1-t)*p0.y + 2*(1-t)*t*cp.y + t*t*p1.y;
+        return {x, y};
+    }
+
+    function drawArc(key, progress) {
+        const n  = NODES[key];
+        const p0 = { x: n.xp  * W, y: n.yp  * H };
+        const p1 = { x: AGG.xp * W, y: AGG.yp * H };
+        // Control point: arc up above the midpoint
+        const cp = {
+            x: (p0.x + p1.x) / 2,
+            y: Math.min(p0.y, p1.y) - H * 0.14
+        };
+
+        // --- Static faint trail ---
+        ctx.beginPath();
+        for (let t = 0; t <= 1; t += 0.02) {
+            const pt = bezierPoint(p0, p1, cp, t);
+            t === 0 ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y);
+        }
+        ctx.strokeStyle = 'rgba(0,242,255,0.07)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        // --- Glowing animated segment ---
+        const tail = Math.max(0, progress - 0.18);
+        ctx.beginPath();
+        for (let t = tail; t <= Math.min(progress, 1); t += 0.008) {
+            const pt = bezierPoint(p0, p1, cp, t);
+            t === tail ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y);
+        }
+        const grad = ctx.createLinearGradient(p0.x, p0.y, p1.x, p1.y);
+        grad.addColorStop(Math.max(0, tail),     'rgba(0,242,255,0)');
+        grad.addColorStop(Math.min(1, progress), 'rgba(0,242,255,0.95)');
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 1.8;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = 'rgba(0,242,255,0.7)';
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+
+        // --- Particle dot at leading edge ---
+        const dot = bezierPoint(p0, p1, cp, Math.min(progress, 1));
+        ctx.beginPath();
+        ctx.arc(dot.x, dot.y, 3.5, 0, Math.PI * 2);
+        ctx.fillStyle = '#00f2ff';
+        ctx.shadowBlur = 14;
+        ctx.shadowColor = 'rgba(0,242,255,1)';
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        // --- Multiple trailing mini-particles ---
+        [0.06, 0.12].forEach(offset => {
+            const tp = Math.max(0, progress - offset);
+            if (tp <= 0) return;
+            const pp = bezierPoint(p0, p1, cp, Math.min(tp, 1));
+            ctx.beginPath();
+            ctx.arc(pp.x, pp.y, 1.8, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(0,242,255,${0.5 - offset * 3})`;
+            ctx.fill();
+        });
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, W, H);
+        frame++;
+
+        // Arc animations
+        arcs.forEach(arc => {
+            if (frame < arc.delay) return;
+            arc.progress += arc.speed;
+            if (arc.progress > 1.2) arc.progress = 0;
+            if (arc.progress <= 1.0) drawArc(arc.from, arc.progress);
+        });
+
+        // === Aggregator glow ===
+        const pulse = 0.5 + 0.5 * Math.sin(frame * 0.05);
+        const ag = ctx.createRadialGradient(AGG.x*W, AGG.y*H, 0, AGG.x*W, AGG.y*H, 30 + pulse * 20);
+        ag.addColorStop(0,   `rgba(0,242,255,${0.4 + pulse * 0.2})`);
+        ag.addColorStop(0.4, `rgba(0,242,255,${0.1})`);
+        ag.addColorStop(1,   'transparent');
+        ctx.beginPath();
+        ctx.arc(AGG.x*W, AGG.y*H, 35 + pulse * 22, 0, Math.PI * 2);
+        ctx.fillStyle = ag;
+        ctx.fill();
+
+        animId = requestAnimationFrame(draw);
+    }
+
+    resize();
+    draw();
+    window.addEventListener('resize', () => { resize(); });
+})();
+
+
+/* ===================================================
+   2. 3D WIREFRAME HEART — WebGL-free procedural canvas
+=================================================== */
+(function() {
+    const canvas = document.getElementById('heartCanvas3D');
+    const ctx = canvas.getContext('2d');
+    let W, H, rot = 0;
+
+    function resize() {
+        const rect = canvas.parentElement.getBoundingClientRect();
+        W = canvas.width  = rect.width;
+        H = canvas.height = 180;
+    }
+
+    // Parametric heart surface: returns [x,y,z] for t in [0,2pi], s in [0,pi]
+    function heartSurface(t, s) {
+        const sc = 1.0;
+        const x = 16 * Math.pow(Math.sin(t), 3) * Math.sin(s) * sc;
+        const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t)) * Math.sin(s) * sc;
+        const z = 8 * Math.cos(s) * sc;
+        return [x, y, z];
+    }
+
+    // Project 3D point to 2D with simple perspective
+    function project(x, y, z, rx, ry) {
+        // Apply Y rotation
+        const cosY = Math.cos(ry), sinY = Math.sin(ry);
+        const x2 = x * cosY + z * sinY;
+        const z2 = -x * sinY + z * cosY;
+        // Apply X rotation (tilt)
+        const cosX = Math.cos(rx), sinX = Math.sin(rx);
+        const y3 = y * cosX - z2 * sinX;
+        const z3 = y * sinX + z2 * cosX;
+        const fov = 70;
+        const sc = fov / (fov + z3);
+        const px = W / 2 + x2 * sc * 5.5;
+        const py = H / 2 + y3 * sc * 5.5;
+        return [px, py, sc, z3];
+    }
+
+    const NU = 24, NV = 16;
+    const tilt = -0.25;
+
+    function draw() {
+        ctx.clearRect(0, 0, W, H);
+        rot += 0.012;
+
+        // Draw heart wireframe
+        // Longitude lines
+        for (let i = 0; i <= NU; i++) {
+            const t = (i / NU) * Math.PI * 2;
+            ctx.beginPath();
+            let first = true;
+            for (let j = 0; j <= NV; j++) {
+                const s = (j / NV) * Math.PI;
+                const [hx, hy, hz] = heartSurface(t, s);
+                const [px, py, sc, z] = project(hx, hy, hz, tilt, rot);
+                const alpha = Math.min(1, 0.15 + sc * 0.6);
+                if (first) { ctx.moveTo(px, py); first = false; }
+                else ctx.lineTo(px, py);
+            }
+            ctx.strokeStyle = `rgba(0,242,255,0.18)`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+        }
+
+        // Latitude lines + filled raster for depth cue
+        for (let j = 1; j < NV; j++) {
+            const s = (j / NV) * Math.PI;
+            const pts = [];
+            for (let i = 0; i <= NU; i++) {
+                const t = (i / NU) * Math.PI * 2;
+                const [hx, hy, hz] = heartSurface(t, s);
+                const [px, py, sc, z] = project(hx, hy, hz, tilt, rot);
+                pts.push([px, py, sc, z]);
+            }
+            // Sort by z for backface cull impression
+            ctx.beginPath();
+            for (let i = 0; i < pts.length; i++) {
+                i === 0 ? ctx.moveTo(pts[i][0], pts[i][1]) : ctx.lineTo(pts[i][0], pts[i][1]);
+            }
+            ctx.closePath();
+            const avgZ = pts.reduce((a,b) => a + b[3], 0) / pts.length;
+            const alpha = (avgZ + 20) / 40;
+            ctx.fillStyle = `rgba(0,242,255,${Math.max(0, alpha * 0.04)})`;
+            ctx.fill();
+            ctx.strokeStyle = `rgba(0,242,255,${Math.max(0, alpha * 0.25)})`;
+            ctx.lineWidth = 0.4;
+            ctx.stroke();
+        }
+
+        // Glow core
+        const gc = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, 40);
+        gc.addColorStop(0, 'rgba(0,242,255,0.06)');
+        gc.addColorStop(1, 'transparent');
+        ctx.fillStyle = gc;
+        ctx.beginPath();
+        ctx.arc(W/2, H/2, 40, 0, Math.PI * 2);
+        ctx.fill();
+
+        requestAnimationFrame(draw);
+    }
+
+    resize();
+    draw();
+    window.addEventListener('resize', resize);
+})();
+
+
+/* ===================================================
+   3. ACCURACY VS ROUNDS CHART
+=================================================== */
+(function() {
+    const canvas = document.getElementById('accuracyChart');
+    const ctx = canvas.getContext('2d');
+    let W, H;
+
+    function resize() {
+        const rect = canvas.parentElement.getBoundingClientRect();
+        W = canvas.width  = rect.width;
+        H = canvas.height = 120;
+    }
+
+    // Accuracy curve data (simulated log-like growth over 70 rounds)
+    const TOTAL_ROUNDS = 70;
+    const data = [];
+    for (let i = 0; i <= TOTAL_ROUNDS; i++) {
+        const acc = 100 * (1 - Math.exp(-i / 18)) + Math.sin(i * 0.8) * 1.5;
+        data.push(Math.min(100, acc));
+    }
+
+    // Live "draw-in" animation
+    let drawn = 0;
+    const SPEED = 0.3; // rounds per frame
+
+    function draw() {
+        ctx.clearRect(0, 0, W, H);
+        drawn = Math.min(drawn + SPEED, TOTAL_ROUNDS);
+
+        const pad = { t: 10, r: 8, b: 24, l: 28 };
+        const cw = W - pad.l - pad.r;
+        const ch = H - pad.t - pad.b;
+
+        // Grid
+        ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+        ctx.lineWidth = 0.5;
+        for (let i = 0; i <= 4; i++) {
+            const y = pad.t + (i / 4) * ch;
+            ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(W - pad.r, y); ctx.stroke();
+        }
+
+        // Y labels
+        ctx.fillStyle = 'rgba(100,120,150,0.7)';
+        ctx.font = `9px ${getComputedStyle(document.documentElement).getPropertyValue('--font-mono')}`;
+        ctx.textAlign = 'right';
+        for (let i = 0; i <= 4; i++) {
+            const pct = 100 - i * 25;
+            const y = pad.t + (i / 4) * ch;
+            ctx.fillText(`${pct}`, pad.l - 4, y + 3);
+        }
+
+        // X labels
+        ctx.textAlign = 'center';
+        [0, 20, 40, 60, 70].forEach(r => {
+            const x = pad.l + (r / TOTAL_ROUNDS) * cw;
+            ctx.fillText(r, x, H - 6);
+        });
+        ctx.fillStyle = 'rgba(100,120,150,0.4)';
+        ctx.textAlign = 'center';
+        ctx.fillText('Rounds', W / 2, H - 1);
+
+        // Loss curve (faded red, full range)
+        ctx.beginPath();
+        for (let i = 0; i <= TOTAL_ROUNDS; i++) {
+            const loss = 100 * Math.exp(-i / 14);
+            const x = pad.l + (i / TOTAL_ROUNDS) * cw;
+            const y = pad.t + (1 - loss / 100) * ch;
+            i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = 'rgba(255,68,102,0.25)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 3]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Area fill under accuracy
+        const steps = Math.floor(drawn);
+        ctx.beginPath();
+        ctx.moveTo(pad.l, pad.t + ch);
+        for (let i = 0; i <= steps; i++) {
+            const x = pad.l + (i / TOTAL_ROUNDS) * cw;
+            const y = pad.t + (1 - data[i] / 100) * ch;
+            ctx.lineTo(x, y);
+        }
+        const lastX = pad.l + (drawn / TOTAL_ROUNDS) * cw;
+        ctx.lineTo(lastX, pad.t + ch);
+        ctx.closePath();
+        const gradA = ctx.createLinearGradient(0, pad.t, 0, H - pad.b);
+        gradA.addColorStop(0, 'rgba(0,242,255,0.18)');
+        gradA.addColorStop(1, 'rgba(0,242,255,0)');
+        ctx.fillStyle = gradA;
+        ctx.fill();
+
+        // Accuracy line
+        ctx.beginPath();
+        for (let i = 0; i <= Math.floor(drawn); i++) {
+            const x = pad.l + (i / TOTAL_ROUNDS) * cw;
+            const y = pad.t + (1 - data[i] / 100) * ch;
+            i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = 'rgba(0,242,255,0.9)';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        // Leading dot
+        const dotX = pad.l + (drawn / TOTAL_ROUNDS) * cw;
+        const dotY = pad.t + (1 - data[Math.floor(drawn)] / 100) * ch;
+        ctx.beginPath();
+        ctx.arc(dotX, dotY, 3.5, 0, Math.PI * 2);
+        ctx.fillStyle = '#00f2ff';
+        ctx.shadowBlur = 10; ctx.shadowColor = '#00f2ff';
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        requestAnimationFrame(draw);
+    }
+
+    resize();
+    draw();
+    window.addEventListener('resize', resize);
+})();
+
+
+/* ===================================================
+   4. LIVE MICRO-UPDATES (data volume, accuracy ticker)
+=================================================== */
+setInterval(() => {
+    const el = document.getElementById('dataVol');
+    if (el) el.textContent = (Math.random() * 15 + 28).toFixed(1);
+}, 1800);
+
+setInterval(() => {
+    const el = document.getElementById('metricAcc');
+    if (el) {
+        const base = 89.2 + (Math.random() - 0.5) * 0.4;
+        el.textContent = base.toFixed(1) + '%';
+    }
+}, 2500);
+
+/* ===================================================
+   5. "Start New Federated Round" button interaction
+=================================================== */
+document.getElementById('fedRoundBtn').addEventListener('click', function() {
+    const orig = this.innerHTML;
+    this.style.color = '#00ff88';
+    this.style.borderColor = 'rgba(0,255,136,0.4)';
+    this.innerHTML = '<span class="btn-federated-dot" style="background:#00ff88;box-shadow:0 0 10px #00ff88"></span><span>Initializing Round 48…</span>';
+    setTimeout(() => {
+        this.innerHTML = orig;
+        this.style.color = '';
+        this.style.borderColor = '';
+    }, 3000);
+});
+</script>
+</body>
+</html>
