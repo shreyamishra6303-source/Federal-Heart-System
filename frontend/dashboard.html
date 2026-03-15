@@ -217,130 +217,31 @@ body { opacity: 0; animation: pageEnter 0.7s 0.05s ease forwards; }
 .content {
     flex: 1;
     display: grid;
-    grid-template-columns: 1fr 300px;
+    grid-template-columns: minmax(0, 1fr) 300px;
     grid-template-rows: 1fr;
+    grid-template-areas: "map right";
     gap: 0;
     overflow: hidden;
+    height: 100vh;
 }
 
-/* ===================== MAP PANEL (left) ===================== */
 .map-panel {
+    grid-area: map;
     position: relative;
     overflow: hidden;
     border-right: 1px solid var(--border);
     background: var(--bg);
 }
-.map-panel__header {
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    z-index: 5;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.1rem 1.6rem 0.8rem;
-    background: linear-gradient(to bottom, rgba(7,10,15,0.9) 0%, transparent 100%);
-}
-.map-panel__title { font-size: 0.82rem; font-weight: 500; color: var(--text-muted); font-family: var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; }
-.map-panel__stats { display: flex; gap: 1rem; }
-.map-stat { font-family: var(--font-mono); font-size: 0.68rem; }
-.map-stat__val { color: var(--cyan); }
-.map-stat__label { color: var(--text-muted); margin-left: 4px; }
-
-/* SVG map base */
-#worldSVG {
-    position: absolute;
-    inset: 0;
-    width: 100%; height: 100%;
-    display: block;
-}
-/* Arc canvas overlay */
-#arcsCanvas {
-    position: absolute;
-    inset: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
-    z-index: 3;
-}
-
-/* Node labels */
-.map-node-labels { position: absolute; inset: 0; pointer-events: none; z-index: 4; }
-.node-label {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-}
-.node-label__ring {
-    width: 14px; height: 14px; border-radius: 50%;
-    background: radial-gradient(circle, var(--cyan) 0%, var(--cyan-mid) 40%, transparent 70%);
-    box-shadow: 0 0 12px var(--cyan), 0 0 30px rgba(0,242,255,0.25);
-    position: relative;
-}
-.node-label__ring::after {
-    content: '';
-    position: absolute;
-    inset: -5px; border-radius: 50%;
-    border: 1px solid rgba(0,242,255,0.4);
-    animation: nodeRing 2s ease-out infinite;
-}
-@keyframes nodeRing { 0%{transform:scale(1);opacity:0.8} 100%{transform:scale(2.5);opacity:0} }
-
-#nodeNYC  .node-label__ring { animation-delay: 0s; }
-#nodeLON  .node-label__ring::after { animation-delay: 0.5s; }
-#nodeTKY  .node-label__ring::after { animation-delay: 1s; }
-
-.node-label__text {
-    font-family: var(--font-mono); font-size: 0.62rem;
-    color: var(--cyan); letter-spacing: 0.08em;
-    text-shadow: 0 0 8px rgba(0,242,255,0.6);
-    white-space: nowrap;
-}
-.node-label__sub {
-    font-family: var(--font-mono); font-size: 0.55rem;
-    color: var(--text-muted);
-    white-space: nowrap;
-}
-
-.aggregator-node {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    display: flex; flex-direction: column; align-items: center; gap: 6px;
-    z-index: 6;
-}
-.aggregator-node__core {
-    width: 22px; height: 22px; border-radius: 50%;
-    background: radial-gradient(circle, #fff 0%, var(--cyan) 50%, transparent 75%);
-    box-shadow: 0 0 20px var(--cyan), 0 0 60px rgba(0,242,255,0.3);
-    animation: aggPulse 2.2s ease-in-out infinite;
-}
-@keyframes aggPulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.25);opacity:0.8} }
-.aggregator-node__ring1, .aggregator-node__ring2 {
-    width: 22px; height: 22px; border-radius: 50%;
-    border: 1px solid rgba(0,242,255,0.5);
-    position: absolute;
-    animation: aggRing 2.5s ease-out infinite;
-}
-.aggregator-node__ring2 { animation-delay: 0.8s; }
-@keyframes aggRing { 0%{transform:scale(1);opacity:0.7} 100%{transform:scale(4);opacity:0} }
-.aggregator-node__label {
-    font-family: var(--font-mono); font-size: 0.62rem;
-    color: var(--text); letter-spacing: 0.06em;
-    margin-top: 16px;
-    text-shadow: 0 0 10px rgba(0,242,255,0.4);
-}
 
 /* ===================== RIGHT PANEL ===================== */
 .right-panel {
+    grid-area: right;
     display: flex;
     flex-direction: column;
     gap: 0;
     overflow-y: auto;
     background: var(--bg-2);
 }
-.right-panel::-webkit-scrollbar { width: 3px; }
-.right-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
 /* Card base */
 .glass-card {
@@ -500,22 +401,6 @@ body { opacity: 0; animation: pageEnter 0.7s 0.05s ease forwards; }
     <!-- ===== MAIN ===== -->
     <div class="main">
 
-        <!-- Top bar -->
-        <div class="topbar">
-            <div class="topbar__left">
-                <div class="topbar__title">Project Athena <span style="color:var(--text-muted);font-weight:300">· Federated Dashboard</span></div>
-                <div class="topbar__sub">Round 47 / 100 · Heart Failure Prediction · 3 Global Nodes</div>
-            </div>
-            <div class="topbar__right">
-                <span class="round-badge">Round 47/100</span>
-                <div class="topbar__badge">
-                    <span class="topbar__badge-dot"></span>
-                    FedProx Active
-                </div>
-                <div class="topbar__avatar" title="Your account">JC</div>
-            </div>
-        </div>
-
         <!-- Content grid -->
         <div class="content">
 
@@ -530,231 +415,16 @@ body { opacity: 0; animation: pageEnter 0.7s 0.05s ease forwards; }
                     </div>
                 </div>
 
-                <!-- SVG World Map -->
-                <svg id="worldSVG" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <defs>
-                        <filter id="landGlow">
-                            <feGaussianBlur stdDeviation="1.5" result="blur"/>
-                            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                        </filter>
-                    </defs>
-                    <!-- Ocean background -->
-                    <rect width="1000" height="500" fill="#070a0f"/>
-                    <!-- Latitude grid lines -->
-                    <g stroke="rgba(0,242,255,0.04)" stroke-width="0.5" fill="none">
-                        <line x1="0" y1="83" x2="1000" y2="83"/><!-- 60N -->
-                        <line x1="0" y1="167" x2="1000" y2="167"/><!-- 30N -->
-                        <line x1="0" y1="250" x2="1000" y2="250"/><!-- Equator -->
-                        <line x1="0" y1="333" x2="1000" y2="333"/><!-- 30S -->
-                        <line x1="0" y1="417" x2="1000" y2="417"/><!-- 60S -->
-                    </g>
-                    <!-- Longitude grid lines -->
-                    <g stroke="rgba(0,242,255,0.03)" stroke-width="0.5" fill="none">
-                        <line x1="83" y1="0" x2="83" y2="500"/><!-- 120W -->
-                        <line x1="167" y1="0" x2="167" y2="500"/><!-- 90W -->
-                        <line x1="250" y1="0" x2="250" y2="500"/><!-- 60W -->
-                        <line x1="333" y1="0" x2="333" y2="500"/><!-- 30W -->
-                        <line x1="500" y1="0" x2="500" y2="500"/><!-- 0 (Prime Meridian) -->
-                        <line x1="667" y1="0" x2="667" y2="500"/><!-- 60E -->
-                        <line x1="750" y1="0" x2="750" y2="500"/><!-- 90E -->
-                        <line x1="833" y1="0" x2="833" y2="500"/><!-- 120E -->
-                        <line x1="917" y1="0" x2="917" y2="500"/><!-- 150E -->
-                    </g>
-                    <!-- ===== CONTINENTS — Natural Earth bezier, equirectangular 0 0 1000 500 ===== -->
-                    <g fill="#1a1e2a" stroke="rgba(0,242,255,0.28)" stroke-width="0.7" stroke-linejoin="round">
+                
 
-                    <!-- ALASKA -->
-                    <path d="M88,70 C95,62 106,54 120,48 C132,43 144,42 153,47 C161,52 164,62 160,71
-                             C156,79 145,84 132,84 C118,84 102,80 88,70 Z
-                             M62,77 C68,70 79,68 85,73 C89,78 84,84 76,84 C70,84 63,81 62,77 Z"/>
+                <!-- High Resolution Geographical SVG Map Image -->
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg" 
+                     alt="Detailed World Map"
+                     style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.15; pointer-events: none; z-index: 1; filter: sepia(1) hue-rotate(140deg) saturate(2) brightness(1.2);" />
 
-                    <!-- NORTH AMERICA — main body with Gulf of Mexico inset -->
-                    <path d="M170,40 C182,28 198,20 216,16 C232,12 250,13 266,18
-                             C280,23 290,32 294,44 C298,56 292,70 280,80
-                             C270,88 258,94 246,100 C236,106 228,114 222,124
-                             C216,134 212,146 206,158 C202,168 196,178 189,185
-                             C183,190 177,190 172,183 C167,176 165,163 166,149
-                             C167,135 170,120 171,106 C172,92 170,78 167,65 C164,55 166,46 170,40 Z"/>
-
-                    <!-- Florida -->
-                    <path d="M242,158 C250,156 257,161 258,170 C259,179 254,190 246,194
-                             C241,197 235,193 234,186 C232,177 235,165 242,158 Z"/>
-
-                    <!-- Baja/Mexico west -->
-                    <path d="M180,160 C185,156 189,160 186,168 C183,176 177,180 173,176 C171,172 174,164 180,160 Z"/>
-
-                    <!-- GREENLAND -->
-                    <path d="M298,8 C313,4 328,4 340,11 C351,18 356,30 351,41
-                             C346,52 332,58 317,59 C302,60 288,52 283,41
-                             C279,32 282,18 298,8 Z"/>
-
-                    <!-- CENTRAL AMERICA -->
-                    <path d="M193,185 C202,180 211,179 217,184 C222,189 221,200 215,207
-                             C209,213 199,214 193,208 C187,202 186,191 193,185 Z"/>
-
-                    <!-- SOUTH AMERICA -->
-                    <path d="M218,197 C231,190 246,188 259,191 C270,194 279,202 281,215
-                             C284,228 280,244 274,260 C268,275 259,290 248,303
-                             C237,316 224,326 213,329 C206,331 202,326 203,317
-                             C204,306 208,293 212,279 C215,265 216,251 215,237
-                             C214,223 215,209 218,197 Z"/>
-
-                    <!-- EUROPE — Scandinavia -->
-                    <path d="M489,44 C497,36 508,30 518,29 C526,28 531,33 528,42
-                             C524,51 514,58 504,61 C496,63 489,57 489,44 Z
-                             M516,33 C523,26 533,27 535,35 C537,43 531,51 522,53
-                             C514,55 510,47 516,33 Z
-                             M527,45 C533,39 541,39 543,47 C545,55 539,61 531,62
-                             C524,63 521,55 527,45 Z"/>
-
-                    <!-- EUROPE — Scandinavian/Baltic -->
-                    <path d="M453,60 C464,52 478,47 492,47 C506,47 518,52 524,62
-                             C529,72 524,83 514,88 C504,93 491,93 480,89
-                             C469,85 460,77 455,68 C452,63 452,62 453,60 Z"/>
-
-                    <!-- British Isles -->
-                    <path d="M456,81 C462,74 471,74 475,81 C479,88 474,97 464,99
-                             C456,101 451,94 456,81 Z
-                             M444,89 C450,84 456,87 454,95 C452,101 445,103 440,98
-                             C437,93 439,92 444,89 Z"/>
-
-                    <!-- Iberian Peninsula -->
-                    <path d="M427,118 C438,111 452,110 460,117 C468,124 470,136 464,147
-                             C458,158 444,165 430,163 C418,161 411,151 413,138
-                             C415,126 420,122 427,118 Z"/>
-
-                    <!-- EUROPE main body + Italy + Balkans -->
-                    <path d="M455,96 C468,88 484,86 499,89 C514,92 524,101 527,113
-                             C530,125 525,137 514,144 C502,151 486,153 472,148
-                             C458,143 450,132 449,119 C448,108 450,101 455,96 Z"/>
-
-                    <!-- Italian boot -->
-                    <path d="M486,114 C493,108 502,110 505,120 C508,130 502,143 494,147
-                             C487,151 481,145 482,135 C483,124 484,119 486,114 Z"/>
-
-                    <!-- AFRICA — main body -->
-                    <path d="M432,138 C446,129 462,124 478,122 C494,120 510,124 520,134
-                             C529,144 531,158 528,173 C524,188 516,204 507,220
-                             C498,236 491,254 490,272 C489,290 492,308 490,324
-                             C487,339 480,351 470,358 C459,364 447,362 437,354
-                             C427,346 420,332 417,316 C414,300 416,282 419,264
-                             C422,246 426,228 428,210 C430,192 430,174 430,156
-                             C430,147 430,141 432,138 Z"/>
-
-                    <!-- Horn of Africa -->
-                    <path d="M522,168 C533,162 544,164 548,173 C551,182 544,193 534,196
-                             C525,199 518,191 520,181 C521,174 521,169 522,168 Z"/>
-
-                    <!-- MADAGASCAR -->
-                    <path d="M548,238 C555,228 564,226 569,235 C573,244 568,259 558,265
-                             C550,269 543,262 544,251 C545,244 547,240 548,238 Z"/>
-
-                    <!-- ARABIAN PENINSULA -->
-                    <path d="M530,150 C541,141 556,139 565,147 C574,155 573,169 565,180
-                             C557,191 543,196 533,191 C524,186 522,172 526,160
-                             C528,154 529,151 530,150 Z"/>
-
-                    <!-- ASIA — main Eurasian block -->
-                    <path d="M527,60 C545,51 565,44 586,40 C606,36 626,33 646,32
-                             C664,31 680,34 693,41 C705,48 712,60 712,72
-                             C712,84 706,96 695,104 C683,112 667,117 650,118
-                             C632,119 614,116 597,110 C580,104 564,96 551,86
-                             C538,76 530,68 527,60 Z"/>
-
-                    <!-- Russia/Siberia belt -->
-                    <path d="M742,30 C762,22 784,18 806,16 C825,14 843,16 859,23
-                             C874,30 882,42 878,54 C874,64 860,70 844,72
-                             C826,74 807,68 790,61 C772,53 755,43 742,34 Z"/>
-
-                    <!-- Kamchatka / far east chain -->
-                    <path d="M862,70 C870,62 880,63 883,72 C886,81 879,91 869,92
-                             C860,93 855,84 862,70 Z
-                             M880,57 C888,50 899,51 901,60 C903,69 895,77 885,77
-                             C876,77 873,68 880,57 Z
-                             M897,44 C906,37 917,38 919,48 C921,57 912,65 902,64
-                             C893,63 888,52 897,44 Z
-                             M918,30 C927,23 939,25 940,35 C941,44 932,52 921,50
-                             C912,49 908,38 918,30 Z
-                             M939,18 C948,12 960,14 961,23 C962,32 952,40 942,38
-                             C933,37 930,25 939,18 Z
-                             M962,10 C971,5 982,7 983,17 C984,26 974,33 964,31
-                             C956,29 953,18 962,10 Z
-                             M980,6 C988,2 998,5 999,14 L1000,24 C993,26 982,22 978,14 Z"/>
-
-                    <!-- CHINA body -->
-                    <path d="M706,78 C720,74 734,74 746,79 C757,84 763,93 761,104
-                             C759,115 749,123 736,127 C723,131 708,128 699,120
-                             C690,112 690,100 698,90 C701,84 704,80 706,78 Z"/>
-
-                    <!-- INDIAN SUBCONTINENT -->
-                    <path d="M645,122 C659,115 676,115 685,124 C693,133 694,148 687,162
-                             C680,175 666,185 652,187 C639,189 628,181 625,168
-                             C622,155 627,140 636,131 C640,126 643,123 645,122 Z"/>
-
-                    <!-- SRI LANKA -->
-                    <path d="M660,188 C664,184 669,186 669,193 C669,199 664,203 660,200 C657,198 657,191 660,188 Z"/>
-
-                    <!-- SOUTHEAST ASIA -->
-                    <path d="M706,120 C718,115 730,118 735,128 C739,138 733,150 721,154
-                             C711,158 700,151 700,140 C700,130 703,123 706,120 Z
-                             M724,122 C734,117 745,120 749,130 C752,140 745,152 734,154
-                             C724,156 717,147 724,122 Z"/>
-
-                    <!-- Malay Peninsula + Sumatra -->
-                    <path d="M707,153 C713,150 720,154 720,163 C720,172 715,182 707,185
-                             C700,188 696,181 700,171 C702,162 705,155 707,153 Z
-                             M716,180 C726,172 740,172 746,181 C752,190 746,203 735,206
-                             C725,209 716,200 716,180 Z"/>
-
-                    <!-- Borneo -->
-                    <path d="M746,152 C758,145 771,147 778,158 C785,170 780,186 768,193
-                             C756,200 742,194 738,181 C734,168 738,157 746,152 Z"/>
-
-                    <!-- JAPAN -->
-                    <path d="M842,117 C849,110 858,111 861,120 C864,130 857,140 848,141
-                             C840,142 835,133 842,117 Z
-                             M850,107 C858,99 869,99 874,108 C879,118 874,130 862,133
-                             C851,136 842,127 850,107 Z
-                             M866,96 C875,88 887,88 891,98 C895,108 888,118 877,120
-                             C866,122 860,112 866,96 Z"/>
-
-                    <!-- TAIWAN -->
-                    <path d="M784,140 C789,134 796,136 797,143 C798,150 793,156 787,154
-                             C782,152 780,146 784,140 Z"/>
-
-                    <!-- Korea -->
-                    <path d="M826,108 C833,101 841,103 843,112 C845,121 839,129 830,129
-                             C822,129 819,120 826,108 Z"/>
-
-                    <!-- AUSTRALIA -->
-                    <path d="M754,287 C769,274 787,267 806,265 C824,263 841,268 853,279
-                             C864,290 866,306 861,321 C856,336 844,348 829,355
-                             C813,362 795,364 778,360 C761,356 746,345 737,330
-                             C729,315 730,297 754,287 Z"/>
-
-                    <!-- Cape York bump NE -->
-                    <path d="M858,285 C867,278 877,280 879,290 C881,300 873,310 863,310
-                             C854,310 849,300 858,285 Z"/>
-
-                    <!-- Tasmania -->
-                    <path d="M794,364 C801,357 811,358 813,367 C815,376 808,383 800,380
-                             C792,377 789,370 794,364 Z"/>
-
-                    <!-- NEW ZEALAND -->
-                    <path d="M897,340 C904,332 913,333 916,342 C919,351 912,361 903,362
-                             C895,363 891,354 897,340 Z
-                             M892,364 C898,357 906,359 907,368 C908,377 901,384 894,381
-                             C888,378 887,370 892,364 Z"/>
-
-                    <!-- ICELAND -->
-                    <path d="M413,46 C422,37 436,37 442,47 C448,57 442,69 430,72
-                             C419,74 410,64 413,46 Z"/>
-
-                    <!-- ANTARCTICA band -->
-                    <path d="M0,466 C80,455 165,449 250,447 C335,445 415,448 500,454
-                             C585,460 665,460 750,455 C835,450 915,453 1000,462
-                             L1000,500 L0,500 Z" fill="#141921" stroke="rgba(0,242,255,0.2)"/>
-                    </g>
+                <!-- SVG Layer for Data Arcs and Glows -->
+                <svg id="worldSVG" style="position: absolute; z-index: 2;" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    
                     <!-- Aggregator SVG glow halo at correct Atlantic coordinates ~45W/20N -->
                     <circle cx="375" cy="194" r="32" fill="rgba(0,242,255,0.04)"/>
                     <circle cx="375" cy="194" r="16" fill="rgba(0,242,255,0.07)"/>
@@ -778,22 +448,22 @@ body { opacity: 0; animation: pageEnter 0.7s 0.05s ease forwards; }
                     <!-- NYC node -->
                     <div class="node-label" id="nodeNYC" style="left:29.4%;top:27.4%">
                         <div class="node-label__ring"></div>
-                        <span class="node-label__text">NYC</span>
-                        <span class="node-label__sub">Hosp. Network</span>
+                        <span class="node-label__text">Node 1</span>
+                        <span class="node-label__sub">(Hosp NYC)</span>
                     </div>
 
                     <!-- London -->
                     <div class="node-label" id="nodeLON" style="left:49.96%;top:21.4%">
                         <div class="node-label__ring" style="animation-delay:0.5s"></div>
-                        <span class="node-label__text">LONDON</span>
-                        <span class="node-label__sub">Research Lab</span>
+                        <span class="node-label__text">Node 3</span>
+                        <span class="node-label__sub">(Lab London)</span>
                     </div>
 
                     <!-- Tokyo -->
                     <div class="node-label" id="nodeTKY" style="left:88.8%;top:30.2%">
                         <div class="node-label__ring" style="animation-delay:1s"></div>
-                        <span class="node-label__text">TOKYO</span>
-                        <span class="node-label__sub">Wearable Tech</span>
+                        <span class="node-label__text">Node 2</span>
+                        <span class="node-label__sub">(Wearable Tokyo)</span>
                     </div>
 
                     <!-- Global Aggregator — Atlantic mid-point -->
@@ -916,400 +586,346 @@ body { opacity: 0; animation: pageEnter 0.7s 0.05s ease forwards; }
 
 <!-- ============================= SCRIPTS ============================= -->
 <script>
-/* ===================================================
-   1. ARC ANIMATION CANVAS — overlays the SVG world map
-      Node positions derived from real lat/lon:
-      NYC   40.71N  74.01W → x%=29.4  y%=27.4
-      LON   51.51N   0.13W → x%=49.96 y%=21.4
-      TKY   35.68N 139.69E → x%=88.80 y%=30.2
-      AGG (mid-Atlantic)   → x%=37.5  y%=38.9
-=================================================== */
-(function() {
-    const canvas = document.getElementById('arcsCanvas');
-    const ctx = canvas.getContext('2d');
-    let W, H;
+    /* ===================================================
+       1. ARC ANIMATION CANVAS
+    =================================================== */
+    (function () {
+        const canvas = document.getElementById('arcsCanvas');
+        const ctx = canvas.getContext('2d');
+        let W, H;
+        const NODES = { nyc: { xp: 0.294, yp: 0.274 }, lon: { xp: 0.4996, yp: 0.214 }, tky: { xp: 0.888, yp: 0.302 } };
+        const AGG = { xp: 0.375, yp: 0.389 };
+        const arcs = [ { from: 'nyc', progress: 0, speed: 0.006, delay: 0 }, { from: 'lon', progress: 0, speed: 0.005, delay: 60 }, { from: 'tky', progress: 0, speed: 0.007, delay: 30 } ];
+        let frame = 0;
 
-    // Node positions as percentages (matching CSS left/top)
-    const NODES = {
-        nyc: { xp: 0.294, yp: 0.274 },
-        lon: { xp: 0.4996, yp: 0.214 },
-        tky: { xp: 0.888, yp: 0.302 },
-    };
-    const AGG = { xp: 0.375, yp: 0.389 };
-
-    const arcs = [
-        { from: 'nyc', progress: 0, speed: 0.006, delay: 0 },
-        { from: 'lon', progress: 0, speed: 0.005, delay: 60 },
-        { from: 'tky', progress: 0, speed: 0.007, delay: 30 },
-    ];
-    let frame = 0;
-
-    function resize() {
-        const rect = canvas.parentElement.getBoundingClientRect();
-        W = canvas.width  = rect.width;
-        H = canvas.height = rect.height;
-    }
-
-    function bezierPoint(p0, p1, cp, t) {
-        const x = (1-t)*(1-t)*p0.x + 2*(1-t)*t*cp.x + t*t*p1.x;
-        const y = (1-t)*(1-t)*p0.y + 2*(1-t)*t*cp.y + t*t*p1.y;
-        return {x, y};
-    }
-
-    function drawArc(key, progress) {
-        const n  = NODES[key];
-        const p0 = { x: n.xp  * W, y: n.yp  * H };
-        const p1 = { x: AGG.xp * W, y: AGG.yp * H };
-        // Control point: arc up above the midpoint
-        const cp = {
-            x: (p0.x + p1.x) / 2,
-            y: Math.min(p0.y, p1.y) - H * 0.14
-        };
-
-        // --- Static faint trail ---
-        ctx.beginPath();
-        for (let t = 0; t <= 1; t += 0.02) {
-            const pt = bezierPoint(p0, p1, cp, t);
-            t === 0 ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y);
+        function resize() {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            W = canvas.width = rect.width || window.innerWidth;
+            H = canvas.height = rect.height || 500;
         }
-        ctx.strokeStyle = 'rgba(0,242,255,0.07)';
-        ctx.lineWidth = 1;
-        ctx.stroke();
 
-        // --- Glowing animated segment ---
-        const tail = Math.max(0, progress - 0.18);
-        ctx.beginPath();
-        for (let t = tail; t <= Math.min(progress, 1); t += 0.008) {
-            const pt = bezierPoint(p0, p1, cp, t);
-            t === tail ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y);
+        function bezierPoint(p0, p1, cp, t) {
+            const x = (1 - t) * (1 - t) * p0.x + 2 * (1 - t) * t * cp.x + t * t * p1.x;
+            const y = (1 - t) * (1 - t) * p0.y + 2 * (1 - t) * t * cp.y + t * t * p1.y;
+            return { x, y };
         }
-        const grad = ctx.createLinearGradient(p0.x, p0.y, p1.x, p1.y);
-        grad.addColorStop(Math.max(0, tail),     'rgba(0,242,255,0)');
-        grad.addColorStop(Math.min(1, progress), 'rgba(0,242,255,0.95)');
-        ctx.strokeStyle = grad;
-        ctx.lineWidth = 1.8;
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = 'rgba(0,242,255,0.7)';
-        ctx.stroke();
-        ctx.shadowBlur = 0;
 
-        // --- Particle dot at leading edge ---
-        const dot = bezierPoint(p0, p1, cp, Math.min(progress, 1));
-        ctx.beginPath();
-        ctx.arc(dot.x, dot.y, 3.5, 0, Math.PI * 2);
-        ctx.fillStyle = '#00f2ff';
-        ctx.shadowBlur = 14;
-        ctx.shadowColor = 'rgba(0,242,255,1)';
-        ctx.fill();
-        ctx.shadowBlur = 0;
+                function drawArc(key, progress) {
+            const n = NODES[key];
+            const p0 = { x: n.xp * W, y: n.yp * H };
+            const p1 = { x: AGG.xp * W, y: AGG.yp * H };
+            const cp = { x: (p0.x + p1.x) / 2, y: Math.min(p0.y, p1.y) - H * 0.14 };
 
-        // --- Multiple trailing mini-particles ---
-        [0.06, 0.12].forEach(offset => {
-            const tp = Math.max(0, progress - offset);
-            if (tp <= 0) return;
-            const pp = bezierPoint(p0, p1, cp, Math.min(tp, 1));
             ctx.beginPath();
-            ctx.arc(pp.x, pp.y, 1.8, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(0,242,255,${0.5 - offset * 3})`;
-            ctx.fill();
-        });
-    }
-
-    function draw() {
-        ctx.clearRect(0, 0, W, H);
-        frame++;
-
-        // Arc animations
-        arcs.forEach(arc => {
-            if (frame < arc.delay) return;
-            arc.progress += arc.speed;
-            if (arc.progress > 1.2) arc.progress = 0;
-            if (arc.progress <= 1.0) drawArc(arc.from, arc.progress);
-        });
-
-        // === Aggregator glow ===
-        const pulse = 0.5 + 0.5 * Math.sin(frame * 0.05);
-        const ag = ctx.createRadialGradient(AGG.x*W, AGG.y*H, 0, AGG.x*W, AGG.y*H, 30 + pulse * 20);
-        ag.addColorStop(0,   `rgba(0,242,255,${0.4 + pulse * 0.2})`);
-        ag.addColorStop(0.4, `rgba(0,242,255,${0.1})`);
-        ag.addColorStop(1,   'transparent');
-        ctx.beginPath();
-        ctx.arc(AGG.x*W, AGG.y*H, 35 + pulse * 22, 0, Math.PI * 2);
-        ctx.fillStyle = ag;
-        ctx.fill();
-
-        animId = requestAnimationFrame(draw);
-    }
-
-    resize();
-    draw();
-    window.addEventListener('resize', () => { resize(); });
-})();
-
-
-/* ===================================================
-   2. 3D WIREFRAME HEART — WebGL-free procedural canvas
-=================================================== */
-(function() {
-    const canvas = document.getElementById('heartCanvas3D');
-    const ctx = canvas.getContext('2d');
-    let W, H, rot = 0;
-
-    function resize() {
-        const rect = canvas.parentElement.getBoundingClientRect();
-        W = canvas.width  = rect.width;
-        H = canvas.height = 180;
-    }
-
-    // Parametric heart surface: returns [x,y,z] for t in [0,2pi], s in [0,pi]
-    function heartSurface(t, s) {
-        const sc = 1.0;
-        const x = 16 * Math.pow(Math.sin(t), 3) * Math.sin(s) * sc;
-        const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t)) * Math.sin(s) * sc;
-        const z = 8 * Math.cos(s) * sc;
-        return [x, y, z];
-    }
-
-    // Project 3D point to 2D with simple perspective
-    function project(x, y, z, rx, ry) {
-        // Apply Y rotation
-        const cosY = Math.cos(ry), sinY = Math.sin(ry);
-        const x2 = x * cosY + z * sinY;
-        const z2 = -x * sinY + z * cosY;
-        // Apply X rotation (tilt)
-        const cosX = Math.cos(rx), sinX = Math.sin(rx);
-        const y3 = y * cosX - z2 * sinX;
-        const z3 = y * sinX + z2 * cosX;
-        const fov = 70;
-        const sc = fov / (fov + z3);
-        const px = W / 2 + x2 * sc * 5.5;
-        const py = H / 2 + y3 * sc * 5.5;
-        return [px, py, sc, z3];
-    }
-
-    const NU = 24, NV = 16;
-    const tilt = -0.25;
-
-    function draw() {
-        ctx.clearRect(0, 0, W, H);
-        rot += 0.012;
-
-        // Draw heart wireframe
-        // Longitude lines
-        for (let i = 0; i <= NU; i++) {
-            const t = (i / NU) * Math.PI * 2;
-            ctx.beginPath();
-            let first = true;
-            for (let j = 0; j <= NV; j++) {
-                const s = (j / NV) * Math.PI;
-                const [hx, hy, hz] = heartSurface(t, s);
-                const [px, py, sc, z] = project(hx, hy, hz, tilt, rot);
-                const alpha = Math.min(1, 0.15 + sc * 0.6);
-                if (first) { ctx.moveTo(px, py); first = false; }
-                else ctx.lineTo(px, py);
+            for (let t = 0; t <= 1; t += 0.02) {
+                const pt = bezierPoint(p0, p1, cp, t);
+                t === 0 ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y);
             }
-            ctx.strokeStyle = `rgba(0,242,255,0.18)`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
+            ctx.strokeStyle = 'rgba(0,242,255,0.07)';
+            ctx.lineWidth = 1; ctx.stroke();
+
+            const tail = Math.max(0, progress - 0.18);
+            ctx.beginPath();
+            for (let t = tail; t <= Math.min(progress, 1); t += 0.008) {
+                const pt = bezierPoint(p0, p1, cp, t);
+                t === tail ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y);
+            }
+            const grad = ctx.createLinearGradient(p0.x, p0.y, p1.x, p1.y);
+            grad.addColorStop(Math.max(0, tail), 'rgba(0,80,255,0)');
+            grad.addColorStop(Math.min(1, progress), 'rgba(0,242,255,1)');
+            ctx.strokeStyle = grad; ctx.lineWidth = 3.5;
+            ctx.shadowBlur = 15; ctx.shadowColor = 'rgba(0,242,255,1)'; ctx.stroke();
+            ctx.shadowBlur = 0;
+
+            const dot = bezierPoint(p0, p1, cp, Math.min(progress, 1));
+            ctx.beginPath(); ctx.arc(dot.x, dot.y, 3.5, 0, Math.PI * 2);
+            ctx.fillStyle = '#00f2ff'; ctx.shadowBlur = 15; ctx.shadowColor = 'rgba(0,242,255,1)'; ctx.fill();
+            ctx.shadowBlur = 0;
+            
+            [0.06, 0.12].forEach(offset => {
+                const tp = Math.max(0, progress - offset);
+                if (tp <= 0) return;
+                const pp = bezierPoint(p0, p1, cp, Math.min(tp, 1));
+                ctx.beginPath(); ctx.arc(pp.x, pp.y, 1.8, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(0,120,255,${0.9 - offset * 3})`; ctx.fill();
+            });
         }
 
-        // Latitude lines + filled raster for depth cue
-        for (let j = 1; j < NV; j++) {
-            const s = (j / NV) * Math.PI;
-            const pts = [];
+        function draw() {
+            ctx.clearRect(0, 0, W, H);
+            frame++;
+            arcs.forEach(arc => {
+                if (frame < arc.delay) return;
+                arc.progress += arc.speed;
+                if (arc.progress > 1.2) arc.progress = 0;
+                if (arc.progress <= 1.0) drawArc(arc.from, arc.progress);
+            });
+            const pulse = 0.5 + 0.5 * Math.sin(frame * 0.05);
+            const ag = ctx.createRadialGradient(AGG.xp * W, AGG.yp * H, 0, AGG.xp * W, AGG.yp * H, 30 + pulse * 20);
+            ag.addColorStop(0, `rgba(0,242,255,${0.4 + pulse * 0.2})`);
+            ag.addColorStop(0.4, `rgba(0,242,255,${0.1})`);
+            ag.addColorStop(1, 'transparent');
+            ctx.beginPath(); ctx.arc(AGG.xp * W, AGG.yp * H, 35 + pulse * 22, 0, Math.PI * 2);
+            ctx.fillStyle = ag; ctx.fill();
+            requestAnimationFrame(draw);
+        }
+
+        resize(); 
+        draw(); 
+        window.addEventListener('resize', resize);
+    })();
+
+    /* ===================================================
+       2. 3D BIOLOGICAL HEART RENDERING
+    =================================================== */
+    (function() {
+        const canvas = document.getElementById('heartCanvas3D');
+        if(!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let W, H, rot = 0;
+
+        function resize() {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            W = canvas.width  = rect.width;
+            H = canvas.height = 180;
+        }
+
+        // Parametric solid biological heart
+        function heartSurface(t, s) {
+            const sc = 1.0;
+            const x = 16 * Math.pow(Math.sin(t), 3) * Math.sin(s) * sc;
+            const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t)) * Math.sin(s) * sc;
+            const z = 8 * Math.cos(s) * sc;
+            return [x, y, z];
+        }
+
+        function project(x, y, z, rx, ry) {
+            const cosY = Math.cos(ry), sinY = Math.sin(ry);
+            const x2 = x * cosY + z * sinY;
+            const z2 = -x * sinY + z * cosY;
+            const cosX = Math.cos(rx), sinX = Math.sin(rx);
+            const y3 = y * cosX - z2 * sinX;
+            const z3 = y * sinX + z2 * cosX;
+            const fov = 70;
+            const sc = fov / (fov + z3);
+            const px = W / 2 + x2 * sc * 5.5;
+            const py = H / 2 + y3 * sc * 5.5;
+            return [px, py, sc, z3];
+        }
+
+        const NU = 32, NV = 24;
+        const tilt = -0.25;
+
+        function draw() {
+            ctx.clearRect(0, 0, W, H);
+            rot += 0.015;
+
+            // Blue wireframe — latitude rings
+            for (let j = 1; j < NV; j++) {
+                const s = (j / NV) * Math.PI;
+                const pts = [];
+                for (let i = 0; i <= NU; i++) {
+                    const t = (i / NU) * Math.PI * 2;
+                    const [hx, hy, hz] = heartSurface(t, s);
+                    const [px, py] = project(hx, hy, hz, tilt, rot);
+                    pts.push([px, py]);
+                }
+                const avgZ = pts.reduce((a, b) => a, 0);
+                ctx.beginPath();
+                pts.forEach(([px, py], i) => i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py));
+                ctx.closePath();
+                ctx.strokeStyle = 'rgba(0,200,255,0.55)';
+                ctx.lineWidth = 0.7;
+                ctx.shadowBlur = 4;
+                ctx.shadowColor = 'rgba(0,242,255,0.4)';
+                ctx.stroke();
+                ctx.shadowBlur = 0;
+            }
+
+            // Blue wireframe — longitude arcs
             for (let i = 0; i <= NU; i++) {
                 const t = (i / NU) * Math.PI * 2;
-                const [hx, hy, hz] = heartSurface(t, s);
-                const [px, py, sc, z] = project(hx, hy, hz, tilt, rot);
-                pts.push([px, py, sc, z]);
+                ctx.beginPath();
+                let first = true;
+                for (let j = 0; j <= NV; j++) {
+                    const s = (j / NV) * Math.PI;
+                    const [hx, hy, hz] = heartSurface(t, s);
+                    const [px, py] = project(hx, hy, hz, tilt, rot);
+                    if (first) { ctx.moveTo(px, py); first = false; } else ctx.lineTo(px, py);
+                }
+                ctx.strokeStyle = 'rgba(0,180,255,0.25)';
+                ctx.lineWidth = 0.4;
+                ctx.stroke();
             }
-            // Sort by z for backface cull impression
+
+            // Soft cyan core glow
+            const gc = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, 50);
+            gc.addColorStop(0, 'rgba(0,200,255,0.18)');
+            gc.addColorStop(1, 'transparent');
+            ctx.fillStyle = gc;
             ctx.beginPath();
-            for (let i = 0; i < pts.length; i++) {
-                i === 0 ? ctx.moveTo(pts[i][0], pts[i][1]) : ctx.lineTo(pts[i][0], pts[i][1]);
-            }
-            ctx.closePath();
-            const avgZ = pts.reduce((a,b) => a + b[3], 0) / pts.length;
-            const alpha = (avgZ + 20) / 40;
-            ctx.fillStyle = `rgba(0,242,255,${Math.max(0, alpha * 0.04)})`;
+            ctx.arc(W/2, H/2, 50, 0, Math.PI * 2);
             ctx.fill();
-            ctx.strokeStyle = `rgba(0,242,255,${Math.max(0, alpha * 0.25)})`;
-            ctx.lineWidth = 0.4;
-            ctx.stroke();
+
+            requestAnimationFrame(draw);
         }
 
-        // Glow core
-        const gc = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, 40);
-        gc.addColorStop(0, 'rgba(0,242,255,0.06)');
-        gc.addColorStop(1, 'transparent');
-        ctx.fillStyle = gc;
-        ctx.beginPath();
-        ctx.arc(W/2, H/2, 40, 0, Math.PI * 2);
-        ctx.fill();
+        // Defer start until layout is painted so getBoundingClientRect returns real dimensions
+        requestAnimationFrame(() => { resize(); draw(); });
+        window.addEventListener('resize', resize);
+    })();
 
-        requestAnimationFrame(draw);
-    }
+    /* ===================================================
+       3. ACCURACY CHART
+    =================================================== */
+    (function () {
+        const canvas = document.getElementById('accuracyChart');
+        if(!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let W, H;
 
-    resize();
-    draw();
-    window.addEventListener('resize', resize);
-})();
-
-
-/* ===================================================
-   3. ACCURACY VS ROUNDS CHART
-=================================================== */
-(function() {
-    const canvas = document.getElementById('accuracyChart');
-    const ctx = canvas.getContext('2d');
-    let W, H;
-
-    function resize() {
-        const rect = canvas.parentElement.getBoundingClientRect();
-        W = canvas.width  = rect.width;
-        H = canvas.height = 120;
-    }
-
-    // Accuracy curve data (simulated log-like growth over 70 rounds)
-    const TOTAL_ROUNDS = 70;
-    const data = [];
-    for (let i = 0; i <= TOTAL_ROUNDS; i++) {
-        const acc = 100 * (1 - Math.exp(-i / 18)) + Math.sin(i * 0.8) * 1.5;
-        data.push(Math.min(100, acc));
-    }
-
-    // Live "draw-in" animation
-    let drawn = 0;
-    const SPEED = 0.3; // rounds per frame
-
-    function draw() {
-        ctx.clearRect(0, 0, W, H);
-        drawn = Math.min(drawn + SPEED, TOTAL_ROUNDS);
-
-        const pad = { t: 10, r: 8, b: 24, l: 28 };
-        const cw = W - pad.l - pad.r;
-        const ch = H - pad.t - pad.b;
-
-        // Grid
-        ctx.strokeStyle = 'rgba(255,255,255,0.04)';
-        ctx.lineWidth = 0.5;
-        for (let i = 0; i <= 4; i++) {
-            const y = pad.t + (i / 4) * ch;
-            ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(W - pad.r, y); ctx.stroke();
+        function resize() {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            W = canvas.width = rect.width || 300;
+            H = canvas.height = 120;
         }
 
-        // Y labels
-        ctx.fillStyle = 'rgba(100,120,150,0.7)';
-        ctx.font = `9px ${getComputedStyle(document.documentElement).getPropertyValue('--font-mono')}`;
-        ctx.textAlign = 'right';
-        for (let i = 0; i <= 4; i++) {
-            const pct = 100 - i * 25;
-            const y = pad.t + (i / 4) * ch;
-            ctx.fillText(`${pct}`, pad.l - 4, y + 3);
-        }
-
-        // X labels
-        ctx.textAlign = 'center';
-        [0, 20, 40, 60, 70].forEach(r => {
-            const x = pad.l + (r / TOTAL_ROUNDS) * cw;
-            ctx.fillText(r, x, H - 6);
-        });
-        ctx.fillStyle = 'rgba(100,120,150,0.4)';
-        ctx.textAlign = 'center';
-        ctx.fillText('Rounds', W / 2, H - 1);
-
-        // Loss curve (faded red, full range)
-        ctx.beginPath();
+        const TOTAL_ROUNDS = 70; const data = [];
         for (let i = 0; i <= TOTAL_ROUNDS; i++) {
-            const loss = 100 * Math.exp(-i / 14);
-            const x = pad.l + (i / TOTAL_ROUNDS) * cw;
-            const y = pad.t + (1 - loss / 100) * ch;
-            i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+            const acc = 100 * (1 - Math.exp(-i / 18)) + Math.sin(i * 0.8) * 1.5;
+            data.push(Math.min(100, acc));
         }
-        ctx.strokeStyle = 'rgba(255,68,102,0.25)';
-        ctx.lineWidth = 1;
-        ctx.setLineDash([3, 3]);
-        ctx.stroke();
-        ctx.setLineDash([]);
+        let drawn = 0; const SPEED = 0.3;
 
-        // Area fill under accuracy
-        const steps = Math.floor(drawn);
-        ctx.beginPath();
-        ctx.moveTo(pad.l, pad.t + ch);
-        for (let i = 0; i <= steps; i++) {
-            const x = pad.l + (i / TOTAL_ROUNDS) * cw;
-            const y = pad.t + (1 - data[i] / 100) * ch;
-            ctx.lineTo(x, y);
+        function draw() {
+            ctx.clearRect(0, 0, W, H);
+            drawn = Math.min(drawn + SPEED, TOTAL_ROUNDS);
+            const pad = { t: 10, r: 8, b: 24, l: 28 };
+            const cw = W - pad.l - pad.r; const ch = H - pad.t - pad.b;
+
+            ctx.strokeStyle = 'rgba(255,255,255,0.04)'; ctx.lineWidth = 0.5;
+            for (let i = 0; i <= 4; i++) {
+                const y = pad.t + (i / 4) * ch;
+                ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(W - pad.r, y); ctx.stroke();
+            }
+
+            ctx.fillStyle = 'rgba(100,120,150,0.7)'; ctx.font = `9px monospace`; ctx.textAlign = 'right';
+            for (let i = 0; i <= 4; i++) {
+                const y = pad.t + (i / 4) * ch;
+                ctx.fillText(`${100 - i * 25}`, pad.l - 4, y + 3);
+            }
+
+            ctx.textAlign = 'center';
+            [0, 20, 40, 60, 70].forEach(r => {
+                const x = pad.l + (r / TOTAL_ROUNDS) * cw;
+                ctx.fillText(r, x, H - 6);
+            });
+            ctx.fillStyle = 'rgba(100,120,150,0.4)'; ctx.fillText('Rounds', W / 2, H - 1);
+
+            ctx.beginPath();
+            for (let i = 0; i <= TOTAL_ROUNDS; i++) {
+                const loss = 100 * Math.exp(-i / 14);
+                const x = pad.l + (i / TOTAL_ROUNDS) * cw;
+                const y = pad.t + (1 - loss / 100) * ch;
+                i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+            }
+            ctx.strokeStyle = 'rgba(255,68,102,0.25)'; ctx.lineWidth = 1; ctx.setLineDash([3, 3]); ctx.stroke(); ctx.setLineDash([]);
+
+            const steps = Math.floor(drawn);
+            ctx.beginPath(); ctx.moveTo(pad.l, pad.t + ch);
+            for (let i = 0; i <= steps; i++) {
+                const x = pad.l + (i / TOTAL_ROUNDS) * cw;
+                const y = pad.t + (1 - data[i] / 100) * ch;
+                ctx.lineTo(x, y);
+            }
+            const lastX = pad.l + (drawn / TOTAL_ROUNDS) * cw;
+            ctx.lineTo(lastX, pad.t + ch); ctx.closePath();
+            const gradA = ctx.createLinearGradient(0, pad.t, 0, H - pad.b);
+            gradA.addColorStop(0, 'rgba(0,242,255,0.18)'); gradA.addColorStop(1, 'rgba(0,242,255,0)');
+            ctx.fillStyle = gradA; ctx.fill();
+
+            ctx.beginPath();
+            for (let i = 0; i <= steps; i++) {
+                const x = pad.l + (i / TOTAL_ROUNDS) * cw;
+                const y = pad.t + (1 - data[i] / 100) * ch;
+                i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+            }
+            ctx.strokeStyle = 'rgba(0,242,255,0.9)'; ctx.lineWidth = 1.5; ctx.stroke();
+
+            const dotX = pad.l + (drawn / TOTAL_ROUNDS) * cw;
+            const dotY = pad.t + (1 - data[steps] / 100) * ch;
+            ctx.beginPath(); ctx.arc(dotX, dotY, 3.5, 0, Math.PI * 2);
+            ctx.fillStyle = '#ccedff'; ctx.shadowBlur = 10; ctx.shadowColor = '#00f2ff'; ctx.fill(); ctx.shadowBlur = 0;
+
+            requestAnimationFrame(draw);
         }
-        const lastX = pad.l + (drawn / TOTAL_ROUNDS) * cw;
-        ctx.lineTo(lastX, pad.t + ch);
-        ctx.closePath();
-        const gradA = ctx.createLinearGradient(0, pad.t, 0, H - pad.b);
-        gradA.addColorStop(0, 'rgba(0,242,255,0.18)');
-        gradA.addColorStop(1, 'rgba(0,242,255,0)');
-        ctx.fillStyle = gradA;
-        ctx.fill();
 
-        // Accuracy line
-        ctx.beginPath();
-        for (let i = 0; i <= Math.floor(drawn); i++) {
-            const x = pad.l + (i / TOTAL_ROUNDS) * cw;
-            const y = pad.t + (1 - data[i] / 100) * ch;
-            i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        // Defer start until layout is painted
+        requestAnimationFrame(() => { resize(); draw(); });
+        window.addEventListener('resize', resize);
+    })();
+
+    /* ===================================================
+       4. MINI CHART & UPDATES
+    =================================================== */
+    setInterval(() => {
+        const el = document.getElementById('dataVol');
+        if (el) el.textContent = (Math.random() * 15 + 28).toFixed(1);
+    }, 1800);
+
+    setInterval(() => {
+        const el = document.getElementById('metricAcc');
+        if (el) {
+            const base = 89.2 + (Math.random() - 0.5) * 0.4;
+            el.textContent = base.toFixed(1) + '%';
         }
-        ctx.strokeStyle = 'rgba(0,242,255,0.9)';
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
+    }, 2500);
 
-        // Leading dot
-        const dotX = pad.l + (drawn / TOTAL_ROUNDS) * cw;
-        const dotY = pad.t + (1 - data[Math.floor(drawn)] / 100) * ch;
-        ctx.beginPath();
-        ctx.arc(dotX, dotY, 3.5, 0, Math.PI * 2);
-        ctx.fillStyle = '#00f2ff';
-        ctx.shadowBlur = 10; ctx.shadowColor = '#00f2ff';
-        ctx.fill();
-        ctx.shadowBlur = 0;
+    (function () {
+        const canvas = document.getElementById('athenaMiniChart');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let frame = 0;
+        const data = Array.from({ length: 40 }, () => Math.random() * 20 + 40);
 
-        requestAnimationFrame(draw);
+        function draw() {
+            ctx.clearRect(0, 0, 220, 35);
+            frame++;
+            if (frame % 5 === 0) {
+                data.push(Math.random() * 20 + 40 + Math.sin(frame * 0.1) * 10);
+                data.shift();
+            }
+
+            ctx.beginPath();
+            for (let i = 0; i < data.length; i++) {
+                const x = (i / (data.length - 1)) * 220;
+                const y = 35 - ((data[i] - 20) / 60) * 35;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.strokeStyle = '#00f2ff'; ctx.lineWidth = 1.5; ctx.stroke();
+
+            ctx.lineTo(220, 35); ctx.lineTo(0, 35);
+            const grad = ctx.createLinearGradient(0, 0, 0, 35);
+            grad.addColorStop(0, 'rgba(0,242,255,0.3)'); grad.addColorStop(1, 'rgba(0,242,255,0)');
+            ctx.fillStyle = grad; ctx.fill();
+
+            requestAnimationFrame(draw);
+        }
+        
+        // Start right away
+        draw();
+    })();
+
+    const btn = document.getElementById('fedRoundBtn');
+    if(btn) {
+        btn.addEventListener('click', function () {
+            const orig = this.innerHTML;
+            this.style.color = '#00ff88'; this.style.borderColor = 'rgba(0,255,136,0.4)';
+            this.innerHTML = '<span class="btn-federated-dot" style="background:#00ff88;box-shadow:0 0 10px #00ff88"></span><span>Initializing Round 48…</span>';
+            setTimeout(() => { this.innerHTML = orig; this.style.color = ''; this.style.borderColor = ''; }, 3000);
+        });
     }
-
-    resize();
-    draw();
-    window.addEventListener('resize', resize);
-})();
-
-
-/* ===================================================
-   4. LIVE MICRO-UPDATES (data volume, accuracy ticker)
-=================================================== */
-setInterval(() => {
-    const el = document.getElementById('dataVol');
-    if (el) el.textContent = (Math.random() * 15 + 28).toFixed(1);
-}, 1800);
-
-setInterval(() => {
-    const el = document.getElementById('metricAcc');
-    if (el) {
-        const base = 89.2 + (Math.random() - 0.5) * 0.4;
-        el.textContent = base.toFixed(1) + '%';
-    }
-}, 2500);
-
-/* ===================================================
-   5. "Start New Federated Round" button interaction
-=================================================== */
-document.getElementById('fedRoundBtn').addEventListener('click', function() {
-    const orig = this.innerHTML;
-    this.style.color = '#00ff88';
-    this.style.borderColor = 'rgba(0,255,136,0.4)';
-    this.innerHTML = '<span class="btn-federated-dot" style="background:#00ff88;box-shadow:0 0 10px #00ff88"></span><span>Initializing Round 48…</span>';
-    setTimeout(() => {
-        this.innerHTML = orig;
-        this.style.color = '';
-        this.style.borderColor = '';
-    }, 3000);
-});
 </script>
 </body>
 </html>
